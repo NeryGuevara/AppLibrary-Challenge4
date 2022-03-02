@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D66BA6193A41B08EE1F98CB /* Pods_AppLibrary_Challenge4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE86899BD7149698B409A6DE /* Pods_AppLibrary_Challenge4.framework */; };
+		C53A432627D024E000AAD840 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C53A432527D024E000AAD840 /* GoogleService-Info.plist */; };
 		C54F7CA927CC9B6C0057EDF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F7CA827CC9B6C0057EDF3 /* AppDelegate.swift */; };
 		C54F7CAB27CC9B6C0057EDF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F7CAA27CC9B6C0057EDF3 /* SceneDelegate.swift */; };
 		C54F7CAD27CC9B6C0057EDF3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F7CAC27CC9B6C0057EDF3 /* ViewController.swift */; };
@@ -21,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8BFEEFE20C0928F2E02B69A9 /* Pods-AppLibrary-Challenge4.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLibrary-Challenge4.release.xcconfig"; path = "Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4.release.xcconfig"; sourceTree = "<group>"; };
+		BE86899BD7149698B409A6DE /* Pods_AppLibrary_Challenge4.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLibrary_Challenge4.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C53A432527D024E000AAD840 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C54F7CA527CC9B6C0057EDF3 /* AppLibrary-Challenge4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppLibrary-Challenge4.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C54F7CA827CC9B6C0057EDF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C54F7CAA27CC9B6C0057EDF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +39,7 @@
 		C571846E27CE00B400769EE0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		C59F39D227CEF0E6007A4BF6 /* UITextField++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++.swift"; sourceTree = "<group>"; };
 		C59F39D427CF1C36007A4BF6 /* UIButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton++.swift"; sourceTree = "<group>"; };
+		F68E4EF0EED64D8A06E33AE9 /* Pods-AppLibrary-Challenge4.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLibrary-Challenge4.debug.xcconfig"; path = "Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,17 +47,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D66BA6193A41B08EE1F98CB /* Pods_AppLibrary_Challenge4.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45968486580BB3D7410DA554 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE86899BD7149698B409A6DE /* Pods_AppLibrary_Challenge4.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9AC0681AD23668CAF586F979 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F68E4EF0EED64D8A06E33AE9 /* Pods-AppLibrary-Challenge4.debug.xcconfig */,
+				8BFEEFE20C0928F2E02B69A9 /* Pods-AppLibrary-Challenge4.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C54F7C9C27CC9B6B0057EDF3 = {
 			isa = PBXGroup;
 			children = (
 				C54F7CA727CC9B6C0057EDF3 /* AppLibrary-Challenge4 */,
 				C54F7CA627CC9B6C0057EDF3 /* Products */,
+				9AC0681AD23668CAF586F979 /* Pods */,
+				45968486580BB3D7410DA554 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -75,6 +102,7 @@
 				C54F7CB127CC9B6D0057EDF3 /* Assets.xcassets */,
 				C54F7CB327CC9B6D0057EDF3 /* LaunchScreen.storyboard */,
 				C54F7CB627CC9B6D0057EDF3 /* Info.plist */,
+				C53A432527D024E000AAD840 /* GoogleService-Info.plist */,
 			);
 			path = "AppLibrary-Challenge4";
 			sourceTree = "<group>";
@@ -113,9 +141,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C54F7CB927CC9B6D0057EDF3 /* Build configuration list for PBXNativeTarget "AppLibrary-Challenge4" */;
 			buildPhases = (
+				84567890B925224272BD5331 /* [CP] Check Pods Manifest.lock */,
 				C54F7CA127CC9B6C0057EDF3 /* Sources */,
 				C54F7CA227CC9B6C0057EDF3 /* Frameworks */,
 				C54F7CA327CC9B6C0057EDF3 /* Resources */,
+				4E785CD76E91C14BB01A8407 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -165,12 +195,55 @@
 			buildActionMask = 2147483647;
 			files = (
 				C54F7CB527CC9B6D0057EDF3 /* LaunchScreen.storyboard in Resources */,
+				C53A432627D024E000AAD840 /* GoogleService-Info.plist in Resources */,
 				C54F7CB227CC9B6D0057EDF3 /* Assets.xcassets in Resources */,
 				C54F7CB027CC9B6C0057EDF3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4E785CD76E91C14BB01A8407 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		84567890B925224272BD5331 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AppLibrary-Challenge4-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C54F7CA127CC9B6C0057EDF3 /* Sources */ = {
@@ -328,6 +401,7 @@
 		};
 		C54F7CBA27CC9B6D0057EDF3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F68E4EF0EED64D8A06E33AE9 /* Pods-AppLibrary-Challenge4.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -357,6 +431,7 @@
 		};
 		C54F7CBB27CC9B6D0057EDF3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BFEEFE20C0928F2E02B69A9 /* Pods-AppLibrary-Challenge4.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
