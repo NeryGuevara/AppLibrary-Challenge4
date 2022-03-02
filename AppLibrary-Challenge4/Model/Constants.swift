@@ -26,4 +26,6 @@ struct Constants{
     static let registerTitle : String = "Register your information"
     static let enterUserName : String = "User name"
     static let createAccount : String = "Create account"
+    static let hello : String = "Hello,"
+    static let logOut : String = "Aren't you? Log out"
 }
