@@ -14,6 +14,10 @@
 		C54F7CB227CC9B6D0057EDF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C54F7CB127CC9B6D0057EDF3 /* Assets.xcassets */; };
 		C54F7CB527CC9B6D0057EDF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C54F7CB327CC9B6D0057EDF3 /* LaunchScreen.storyboard */; };
 		C571846627CDEA6500769EE0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C571846527CDEA6500769EE0 /* Constants.swift */; };
+		C571846D27CDFFF500769EE0 /* RegistroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C571846C27CDFFF500769EE0 /* RegistroViewController.swift */; };
+		C571846F27CE00B400769EE0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C571846E27CE00B400769EE0 /* HomeViewController.swift */; };
+		C59F39D327CEF0E6007A4BF6 /* UITextField++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59F39D227CEF0E6007A4BF6 /* UITextField++.swift */; };
+		C59F39D527CF1C36007A4BF6 /* UIButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59F39D427CF1C36007A4BF6 /* UIButton++.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		C54F7CB427CC9B6D0057EDF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C54F7CB627CC9B6D0057EDF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C571846527CDEA6500769EE0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C571846C27CDFFF500769EE0 /* RegistroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistroViewController.swift; sourceTree = "<group>"; };
+		C571846E27CE00B400769EE0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		C59F39D227CEF0E6007A4BF6 /* UITextField++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++.swift"; sourceTree = "<group>"; };
+		C59F39D427CF1C36007A4BF6 /* UIButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton++.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				C54F7CAC27CC9B6C0057EDF3 /* ViewController.swift */,
+				C571846C27CDFFF500769EE0 /* RegistroViewController.swift */,
+				C571846E27CE00B400769EE0 /* HomeViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -90,6 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				C571846527CDEA6500769EE0 /* Constants.swift */,
+				C59F39D227CEF0E6007A4BF6 /* UITextField++.swift */,
+				C59F39D427CF1C36007A4BF6 /* UIButton++.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,9 +177,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C59F39D327CEF0E6007A4BF6 /* UITextField++.swift in Sources */,
+				C571846F27CE00B400769EE0 /* HomeViewController.swift in Sources */,
 				C54F7CAD27CC9B6C0057EDF3 /* ViewController.swift in Sources */,
+				C59F39D527CF1C36007A4BF6 /* UIButton++.swift in Sources */,
 				C54F7CA927CC9B6C0057EDF3 /* AppDelegate.swift in Sources */,
 				C54F7CAB27CC9B6C0057EDF3 /* SceneDelegate.swift in Sources */,
+				C571846D27CDFFF500769EE0 /* RegistroViewController.swift in Sources */,
 				C571846627CDEA6500769EE0 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
