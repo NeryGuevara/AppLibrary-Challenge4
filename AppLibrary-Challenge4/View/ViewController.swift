@@ -25,8 +25,10 @@ class ViewController: UIViewController {
     lazy var labelRegisterOfButton : UILabel = UILabel()
     lazy var registerButton: UIButton = UIButton()
     
-    var alerta : String = ""
-
+    lazy var cryptoTableView: UITableView = UITableView()
+    
+    private lazy var viewModel: CryptoViewModel = CryptoViewModel(localDataManager: CryptoViewLocalDataManager())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //Seleccionamos el backgroundColor como el color por defecto seleccionado en el iPhone

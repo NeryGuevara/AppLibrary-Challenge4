@@ -12,12 +12,16 @@ class HomeViewController: UIViewController {
     let width = Constants.width
     let height = Constants.height
     
-    var topImage : UIImageView = UIImageView()
-    var linea : UIView = UIView()
-    var hola : UILabel = UILabel()
-    var nombre : UILabel = UILabel()
-    var botonCierre: UIButton = UIButton()
-    var labelBotonCierre : UILabel = UILabel()
+    lazy var topImage : UIImageView = UIImageView()
+    lazy var linea : UIView = UIView()
+    lazy var hola : UILabel = UILabel()
+    lazy var nombre : UILabel = UILabel()
+    lazy var botonCierre: UIButton = UIButton()
+    lazy var labelBotonCierre : UILabel = UILabel()
+    
+    lazy var cryptoTableView : UITableView = UITableView()
+    
+    private lazy var viewModel: CryptoViewModel = CryptoViewModel(localDataManager: CryptoViewLocalDataManager())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +29,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         initUI()
+        initViewModel()
     }
     
     func initUI(){
@@ -71,7 +76,76 @@ class HomeViewController: UIViewController {
         labelBotonCierre.adjustsFontSizeToFitWidth = true
         
         botonCierre.addSubview(labelBotonCierre)
+    
+        cryptoTableView = UITableView(frame: CGRect(x: 0, y: height/2+height/18, width: width, height: height/2-height/18))
+        cryptoTableView.backgroundColor = .systemGray5
+        // Designar delegate y data source del table view
+        self.cryptoTableView.delegate = self
+        self.cryptoTableView.dataSource = self
+        // EL .self despues del nombre de la clase, hace que pasemos como parametro el nombre de la clase
+        self.cryptoTableView.register(ReusableTableViewCell.self, forCellReuseIdentifier: ReusableTableViewCell.reuseIdentifier)
+        view.addSubview(cryptoTableView)
         
+        // Add item button
+        //let barButton: UIBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: { action in
+        //    self.tabButtonPushed()
+        //}), menu: nil)
+        //self.navigationItem.setRightBarButton(barButton, animated: true)
     }
-
+    
+    func initViewModel() {
+        viewModel.cryptoDataSource.valueChanged = { [weak self] cryptoDataSource in
+            self?.cryptoTableView.reloadData()
+        }
+        viewModel.obtainAvailableCryptos()
+        
+        viewModel.route.valueChanged = { [weak self] optionalRouter in
+            guard let self = self,
+                  let route: Route = optionalRouter,
+                  let nextViewController = route.viewController else { return }
+            // In case that the next view is a whole view controller
+            if case Route.exchangeView(crypto: _) = route {
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            } else { // In case that the next view is a alert
+                self.present(nextViewController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    private func tabButtonPushed() {
+        viewModel.didTappedBarButton()
+    }
 }
+
+extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectCell(at: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension HomeViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.obtainNumberOfAvailableCryptos()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return height/7
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell: ReusableTableViewCell = tableView.dequeueReusableCell(withIdentifier: ReusableTableViewCell.reuseIdentifier, for: indexPath) as? ReusableTableViewCell else { return UITableViewCell() }
+        
+        let currency: Crypto = viewModel.obtainCrypto(at: indexPath.row)
+        
+        cell.initUI(model: currency)
+        return cell
+    }
+}
+
+
