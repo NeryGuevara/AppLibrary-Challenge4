@@ -19,6 +19,7 @@ class RegistroViewController: UIViewController {
     lazy var contenedor: UIView = UIView()
     lazy var titulo: UILabel = UILabel()
     lazy var usuarioText: UITextField = UITextField()
+    lazy var libroText: UITextField = UITextField()
     lazy var correoText: UITextField = UITextField()
     lazy var contrasenaText: UITextField = UITextField()
     lazy var contrasenaTextConfirm: UITextField = UITextField()
@@ -48,7 +49,6 @@ class RegistroViewController: UIViewController {
         
         botonRegreso = UIButton(frame: CGRect(x: 20, y: height/12, width: 9*width/40, height: height/12))
         botonRegreso.backgroundColor = .clear
-        botonRegreso.setTitleColor(.systemBlue, for: .normal)
         botonRegreso.addTarget(self, action: #selector(regresoAction), for: .touchUpInside)
         
         view.addSubview(botonRegreso)
@@ -71,7 +71,7 @@ class RegistroViewController: UIViewController {
         
         view.addSubview(mensaje)
         
-        contenedor = UIView(frame: CGRect(x: 20, y: 5*height/18, width: width-40, height: height/2))
+        contenedor = UIView(frame: CGRect(x: 20, y: 5*height/18, width: width-40, height: 14*height/22))
         contenedor.backgroundColor = .systemGray3
         contenedor.layer.cornerRadius = 20
         
@@ -86,7 +86,7 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(titulo)
         
-        usuarioText = UITextField(frame: CGRect(x: (width-40)/20, y: 3*height/22, width: 18*(width-40)/20, height: height/22))
+        usuarioText = UITextField(frame: CGRect(x: (width-40)/20, y: 3*height/22, width: 18*(width-40)/20, height: height/18))
         usuarioText.format()
         usuarioText.attributedPlaceholder = NSAttributedString(
             string: Constants.enterUserName,
@@ -95,7 +95,16 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(usuarioText)
         
-        correoText = UITextField(frame: CGRect(x: (width-40)/20, y: 5*height/22, width: 18*(width-40)/20, height: height/22))
+        libroText = UITextField(frame: CGRect(x: (width-40)/20, y: 5*height/22, width: 18*(width-40)/20, height: height/18))
+        libroText.format()
+        libroText.attributedPlaceholder = NSAttributedString(
+            string: Constants.enterBook,
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
+        )
+        
+        contenedor.addSubview(libroText)
+        
+        correoText = UITextField(frame: CGRect(x: (width-40)/20, y: 7*height/22, width: 18*(width-40)/20, height: height/18))
         correoText.format()
         correoText.attributedPlaceholder = NSAttributedString(
             string: Constants.enterEmail,
@@ -105,7 +114,7 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(correoText)
         
-        contrasenaText = UITextField(frame: CGRect(x: (width-40)/20, y: 7*height/22, width: 18*(width-40)/20, height: height/22))
+        contrasenaText = UITextField(frame: CGRect(x: (width-40)/20, y: 9*height/22, width: 18*(width-40)/20, height: height/18))
         contrasenaText.format()
         contrasenaText.attributedPlaceholder = NSAttributedString(
             string: Constants.enterPassword,
@@ -115,7 +124,7 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(contrasenaText)
         
-        contrasenaTextConfirm = UITextField(frame: CGRect(x: (width-40)/20, y: 9*height/22, width: 18*(width-40)/20, height: height/22))
+        contrasenaTextConfirm = UITextField(frame: CGRect(x: (width-40)/20, y: 11*height/22, width: 18*(width-40)/20, height: height/18))
         contrasenaTextConfirm.format()
         contrasenaTextConfirm.attributedPlaceholder = NSAttributedString(
             string: Constants.enterPasswordConfirm,
@@ -125,7 +134,7 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(contrasenaTextConfirm)
         
-        mostrarContrasenaButton = UIButton(frame: CGRect(x: width/3 - 20, y: 10*height/22, width: width/3, height: height/24))
+        mostrarContrasenaButton = UIButton(frame: CGRect(x: width/3 - 20, y: 11*height/22 + height/16, width: width/3, height: height/30))
         mostrarContrasenaButton.backgroundColor = .clear
         mostrarContrasenaButton.layer.borderColor = UIColor.clear.cgColor
         mostrarContrasenaButton.addTarget(self, action: #selector(verPass), for: .allTouchEvents)
@@ -142,7 +151,7 @@ class RegistroViewController: UIViewController {
         mostrarContrasenaButton.addSubview(labelMostrarContrasena)
         
         
-        botonRegistro = UIButton(frame: CGRect(x: width/10, y: 29*height/36, width: 8*width/10, height: height/18))
+        botonRegistro = UIButton(frame: CGRect(x: width/10, y: 32*height/36, width: 8*width/10, height: height/18))
         botonRegistro.blueFormat()
         //botonRegistro?.addTarget(self, action: #selector(registroAction), for: .touchUpInside)
         

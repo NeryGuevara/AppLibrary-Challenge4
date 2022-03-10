@@ -87,7 +87,7 @@ class ViewController: UIViewController {
         
         view.addSubview(textContrasena)
         
-        mostrarContrasenaButton = UIButton(frame: CGRect(x: width/3, y: 15*height/24 + height/17, width: width/3, height: height/24))
+        mostrarContrasenaButton = UIButton(frame: CGRect(x: width/3, y: 15*height/24 + height/16, width: width/3, height: height/30))
         mostrarContrasenaButton.backgroundColor = .clear
         mostrarContrasenaButton.layer.borderColor = UIColor.clear.cgColor
         mostrarContrasenaButton.addTarget(self, action: #selector(verPass), for: .allTouchEvents)
