@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class HomeViewController: UIViewController {
 
@@ -49,7 +50,7 @@ class HomeViewController: UIViewController {
         view.addSubview(hola)
         
         nombre = UILabel(frame: CGRect(x: 20, y: height/15 + 40, width: width-40, height: 42))
-        nombre.text = "Este es el ejemplo de un nombre largo"
+        nombre.text = Constants.nameNotFound
         nombre.font = .boldSystemFont(ofSize: 33)
         nombre.textColor = UIColor.systemBlue
         nombre.textAlignment = .left
@@ -63,12 +64,12 @@ class HomeViewController: UIViewController {
         
         botonCierre = UIButton(frame: CGRect(x: 17*width/24 - 20, y: height/36, width: 7*width/24, height: height/12))
         botonCierre.backgroundColor = .clear
-        //botonCierre.addTarget(self, action: #selector(cierreSesion), for: .touchUpInside)
+        botonCierre.addTarget(self, action: #selector(cierreSesion), for: .touchUpInside)
         
         view.addSubview(botonCierre)
         
         labelBotonCierre = UILabel(frame: CGRect(x: 0, y: 0, width: 7*width/24, height: height/12))
-        labelBotonCierre.text = Constants.logOut
+        labelBotonCierre.text = Constants.logOutlabel
         labelBotonCierre.textColor = .systemBlue
         labelBotonCierre.font = .boldSystemFont(ofSize: 24)
         labelBotonCierre.numberOfLines = 0
@@ -115,6 +116,19 @@ class HomeViewController: UIViewController {
     private func tabButtonPushed() {
         viewModel.didTappedBarButton()
     }
+    
+    @objc func cierreSesion(){
+        let alerta = UIAlertController(title: Constants.logOutTitle, message: Constants.logOutMessage, preferredStyle: .alert)
+        let aceptar = UIAlertAction(title: Constants.accept, style: .default) { _ in
+            try! Auth.auth().signOut()
+            self.dismiss(animated: true, completion: nil)
+        }
+        let cancelar = UIAlertAction(title: Constants.cancel, style: .default, handler: nil)
+        alerta.addAction(aceptar)
+        alerta.addAction(cancelar)
+        present(alerta, animated: true, completion: nil)
+    }
+    
 }
 
 extension HomeViewController: UITableViewDelegate {

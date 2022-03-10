@@ -24,6 +24,8 @@ class RegistroViewController: UIViewController {
     lazy var contrasenaTextConfirm: UITextField = UITextField()
     lazy var labelBotonRegistro: UILabel = UILabel()
     lazy var botonRegistro: UIButton = UIButton()
+    lazy var labelMostrarContrasena : UILabel = UILabel()
+    lazy var mostrarContrasenaButton : UIButton = UIButton()
     
     var alerta : String = ""
 
@@ -123,6 +125,23 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(contrasenaTextConfirm)
         
+        mostrarContrasenaButton = UIButton(frame: CGRect(x: width/3 - 20, y: 10*height/22, width: width/3, height: height/24))
+        mostrarContrasenaButton.backgroundColor = .clear
+        mostrarContrasenaButton.layer.borderColor = UIColor.clear.cgColor
+        mostrarContrasenaButton.addTarget(self, action: #selector(verPass), for: .allTouchEvents)
+        contenedor.addSubview(mostrarContrasenaButton)
+        
+        labelMostrarContrasena = UILabel(frame: CGRect(x: 0, y: 0, width: width/3, height: height/24))
+        labelMostrarContrasena.text = Constants.showPass
+        labelMostrarContrasena.textAlignment = .center
+        labelMostrarContrasena.backgroundColor = .clear
+        labelMostrarContrasena.textColor = .systemBlue
+        labelMostrarContrasena.font = .boldSystemFont(ofSize: 30)
+        labelMostrarContrasena.adjustsFontSizeToFitWidth = true
+        
+        mostrarContrasenaButton.addSubview(labelMostrarContrasena)
+        
+        
         botonRegistro = UIButton(frame: CGRect(x: width/10, y: 29*height/36, width: 8*width/10, height: height/18))
         botonRegistro.blueFormat()
         //botonRegistro?.addTarget(self, action: #selector(registroAction), for: .touchUpInside)
@@ -144,8 +163,9 @@ class RegistroViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @objc func verPass(){
+        contrasenaText.isSecureTextEntry.toggle()
+        contrasenaTextConfirm.isSecureTextEntry.toggle()
+    }
     
-
-    
-
 }

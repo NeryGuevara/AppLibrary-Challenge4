@@ -27,5 +27,15 @@ struct Constants{
     static let enterUserName : String = "User name"
     static let createAccount : String = "Create account"
     static let hello : String = "Hello,"
-    static let logOut : String = "Aren't you? Log out"
+    static let logOutlabel : String = "Aren't you? Log out"
+    static let logOutTitle : String = "Log out"
+    static let logOutMessage : String = "Are you sure you want to log out?"
+    static let accept : String = "Accept"
+    static let cancel : String = "Cancel"
+    static let nameNotFound : String = "Name not found"
+    static let error : String = "Error :("
+    static let errorCount : String = "The data entered are invalid"
+    static let errorInternal : String = "Internal error, we will work to fix it"
+    static let showPass : String = "Show password"
+    
 }

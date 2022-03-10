@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ViewController: UIViewController {
     
@@ -24,10 +25,19 @@ class ViewController: UIViewController {
     lazy var loginButton: UIButton = UIButton()
     lazy var labelRegisterOfButton : UILabel = UILabel()
     lazy var registerButton: UIButton = UIButton()
+    lazy var labelMostrarContrasena : UILabel = UILabel()
+    lazy var mostrarContrasenaButton : UIButton = UIButton()
     
     lazy var cryptoTableView: UITableView = UITableView()
     
     private lazy var viewModel: CryptoViewModel = CryptoViewModel(localDataManager: CryptoViewLocalDataManager())
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        sesionActiva()
+        textCorreo.text = ""
+        textContrasena.text = ""
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,13 +87,30 @@ class ViewController: UIViewController {
         
         view.addSubview(textContrasena)
         
-        loginButton = UIButton(frame: CGRect(x: width/10, y: 17*height/24, width: 8*width/10, height: height/18))
+        mostrarContrasenaButton = UIButton(frame: CGRect(x: width/3, y: 15*height/24 + height/17, width: width/3, height: height/24))
+        mostrarContrasenaButton.backgroundColor = .clear
+        mostrarContrasenaButton.layer.borderColor = UIColor.clear.cgColor
+        mostrarContrasenaButton.addTarget(self, action: #selector(verPass), for: .allTouchEvents)
+        view.addSubview(mostrarContrasenaButton)
+        
+        labelMostrarContrasena = UILabel(frame: CGRect(x: 0, y: 0, width: width/3, height: height/24))
+        labelMostrarContrasena.text = Constants.showPass
+        labelMostrarContrasena.textAlignment = .center
+        labelMostrarContrasena.backgroundColor = .clear
+        labelMostrarContrasena.textColor = .systemBlue
+        labelMostrarContrasena.font = .boldSystemFont(ofSize: 30)
+        labelMostrarContrasena.adjustsFontSizeToFitWidth = true
+        
+        mostrarContrasenaButton.addSubview(labelMostrarContrasena)
+        
+        
+        loginButton = UIButton(frame: CGRect(x: width/10, y: 3*height/4, width: 8*width/10, height: height/16))
         loginButton.blueFormat()
         loginButton.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
         
         view.addSubview(loginButton)
         
-        labelLoginOfButton = UILabel(frame: CGRect(x: 6.5*width/20, y: 0, width: 3*width/20, height: height/18))
+        labelLoginOfButton = UILabel(frame: CGRect(x: 19*width/60, y: 0, width: width/6, height: height/16))
         labelLoginOfButton.text = Constants.login
         labelLoginOfButton.textAlignment = .center
         labelLoginOfButton.backgroundColor = .clear
@@ -93,7 +120,7 @@ class ViewController: UIViewController {
         
         loginButton.addSubview(labelLoginOfButton)
         
-        registerButton = UIButton(frame: CGRect(x: width/8, y: 19*height/24, width: 3*width/4, height: height/18))
+        registerButton = UIButton(frame: CGRect(x: width/8, y: 7*height/8, width: 3*width/4, height: height/16))
         registerButton.backgroundColor = .clear
         registerButton.layer.borderColor = UIColor.clear.cgColor
         registerButton.addTarget(self, action: #selector(registerAction), for: .touchUpInside)
@@ -111,16 +138,54 @@ class ViewController: UIViewController {
         registerButton.addSubview(labelRegisterOfButton)
     }
     
+    @objc func verPass(){
+        textContrasena.isSecureTextEntry.toggle()
+    }
+    
     @objc func loginAction(){
-        let login = HomeViewController()
-        login.modalPresentationStyle = .fullScreen
-        present(login, animated: true, completion: nil)
+        
+        if let correo = textCorreo.text, let pass = textContrasena.text{
+            iniciarSesion(correo: correo, pass: pass)
+        }
+        
+    }
+    
+    func iniciarSesion(correo: String, pass: String){
+        Auth.auth().signIn(withEmail: correo, password: pass) { [self] user, error in
+            if user != nil{
+                let homeUno = HomeViewController()
+                homeUno.modalPresentationStyle = .fullScreen
+                present(homeUno, animated: true, completion: nil)
+            }else{
+                if let _ = error?.localizedDescription{
+                    let alert = UIAlertController(title: Constants.error, message: Constants.errorCount, preferredStyle: .alert)
+                    let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+                    alert.addAction(aceptar)
+                    present(alert, animated: true, completion: nil)
+                }else{
+                    let alert = UIAlertController(title: Constants.error, message: Constants.errorInternal, preferredStyle: .alert)
+                    let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+                    alert.addAction(aceptar)
+                    present(alert, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     @objc func registerAction(){
         let registro = RegistroViewController()
         registro.modalPresentationStyle = .fullScreen
         present(registro, animated: true, completion: nil)
+    }
+    
+    func sesionActiva(){
+        Auth.auth().addStateDidChangeListener { [self] user, error in
+            if error != nil{
+                let homeDos = HomeViewController()
+                homeDos.modalPresentationStyle = .fullScreen
+                present(homeDos, animated: true, completion: nil)
+            }
+        }
     }
 
 }
