@@ -27,20 +27,20 @@ func validarCampos(nombre: String, mail: String, contrasena: String, confirmacio
     if nombre != ""{
         nombreIngresado = true
     }else{
-        alerta = "Por favor, introduce tu nombre de usuario"
+        alerta = Constants.alertNameIntro
     }
     
     
     if nombre.count > 3{
         nombreValido = true
     }else{
-        alerta = "El nombre de usuario ingrasado es demasiado corto, por favor ingresa uno con al menos 4 carácteres"
+        alerta = Constants.alertNameBad
     }
     
     if mail != ""{
         mailIngrasado = true
     }else{
-        alerta = "Por favor, ingresa tu correo electrónico"
+        alerta = Constants.alertMailIntro
     }
     
     
@@ -64,13 +64,13 @@ func validarCampos(nombre: String, mail: String, contrasena: String, confirmacio
     if seguridadMinuscula && seguridadMayuscula && seguridadNumero && seguridadEspecial && seguridadCount{
             contrasenaValidaIngresada = true
     }else{
-        alerta = "Por favor, introduce una contraseña válida, esta debe contener al menos 8 carácteres entre los cuales debe haber al menos una minúscula, una mayúscula, un número y un carácter especial"
+        alerta = Constants.alertPassBad
     }
     
     if confirmacionContrasena == contrasena{
         confirmacionContrasenaIgrasada = true
     }else{
-        alerta = "Las contraseñas no coinciden, verifícalo por favor"
+        alerta = Constants.alertPassBadIntro
     }
     
     if nombreIngresado && nombreValido && mailIngrasado && contrasenaValidaIngresada && confirmacionContrasenaIgrasada{

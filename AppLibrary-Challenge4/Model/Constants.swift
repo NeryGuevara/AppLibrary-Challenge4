@@ -42,4 +42,13 @@ struct Constants{
     static let addNewBookTitle : String = "Add new book"
     static let errorBook : String = "Book not found"
     static let myBooks : String = "My books"
+    static let home : String = "Home"
+    static let authors : String = "Authors"
+    static let account : String = "Account"
+    static let search : String = "Search"
+    static let alertNameIntro : String = "Please enter your username"
+    static let alertNameBad : String = "The username entered is too short, please enter one with at least 4 characters."
+    static let alertMailIntro : String = "Please enter your email address"
+    static let alertPassBad : String = "Please enter a valid password, it must contain at least 8 characters including at least one lowercase letter, one uppercase letter, one number and one special character."
+    static let alertPassBadIntro : String = "Passwords do not match, please verify it"
 }

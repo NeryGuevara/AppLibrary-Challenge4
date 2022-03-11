@@ -91,12 +91,12 @@ class HomeViewController: UIViewController {
         
         botonCierre.addSubview(labelBotonCierre)
     
-        librosTableView = UITableView(frame: CGRect(x: 0, y: height/2+height/18, width: width, height: height/2-height/7))
+        librosTableView = UITableView(frame: CGRect(x: 0, y: 9*height/30, width: width, height: 18*height/30))
         librosTableView.backgroundColor = .systemGray5
         librosTableView.layer.cornerRadius = 20
         view.addSubview(librosTableView)
         
-        contenedorLabel = UIView(frame: CGRect(x: width/6, y: height/2, width: 2*width/3, height: height/20))
+        contenedorLabel = UIView(frame: CGRect(x: width/6, y: 7*height/30, width: 2*width/3, height: height/20))
         contenedorLabel.layer.cornerRadius = 10
         contenedorLabel.backgroundColor = .systemBlue
         contenedorLabel.layer.borderColor = UIColor.systemBlue.cgColor

@@ -151,9 +151,25 @@ class ViewController: UIViewController {
     func iniciarSesion(correo: String, pass: String){
         Auth.auth().signIn(withEmail: correo, password: pass) { [self] user, error in
             if user != nil{
-                let homeUno = HomeViewController()
-                homeUno.modalPresentationStyle = .fullScreen
-                present(homeUno, animated: true, completion: nil)
+                let tabBar = UITabBarController()
+                let home = HomeViewController()
+                home.title = Constants.home
+                home.tabBarItem.image = UIImage(named: "home")
+                let authors = AuthorsViewController()
+                authors.title = Constants.authors
+                authors.tabBarItem.image = UIImage(named: "autores")
+                let search = SearchViewController()
+                search.title = Constants.search
+                search.tabBarItem.image = UIImage(named: "buscar")
+                let detalles = AccountViewController()
+                detalles.title = Constants.account
+                detalles.tabBarItem.image = UIImage(named: "account")
+                UITabBar.appearance().backgroundColor = .systemGray6
+                
+                tabBar.setViewControllers([home, authors, search, detalles], animated: true)
+                tabBar.modalPresentationStyle = .fullScreen
+                present(tabBar, animated: true)
+                
             }else{
                 if let _ = error?.localizedDescription{
                     let alert = UIAlertController(title: Constants.error, message: Constants.errorCount, preferredStyle: .alert)
@@ -179,13 +195,35 @@ class ViewController: UIViewController {
     func sesionActiva(){
         Auth.auth().addStateDidChangeListener { [self] user, error in
             if error != nil{
-                let homeDos = HomeViewController()
-                homeDos.modalPresentationStyle = .fullScreen
-                present(homeDos, animated: true, completion: nil)
+                let tabBar = UITabBarController()
+                let home = HomeViewController()
+                home.title = Constants.home
+                home.tabBarItem.image = UIImage(named: "home")
+                let authors = AuthorsViewController()
+                authors.title = Constants.authors
+                authors.tabBarItem.image = UIImage(named: "autores")
+                let search = SearchViewController()
+                search.title = Constants.search
+                search.tabBarItem.image = UIImage(named: "buscar")
+                let detalles = AccountViewController()
+                detalles.title = Constants.account
+                detalles.tabBarItem.image = UIImage(named: "account")
+                UITabBar.appearance().backgroundColor = .systemGray6
+                
+                
+                tabBar.setViewControllers([home, authors, search, detalles], animated: true)
+                tabBar.modalPresentationStyle = .fullScreen
+                present(tabBar, animated: true)
             }
         }
     }
 
+}
+
+extension UITabBar {
+    static func setAppearanceTabbar(){
+        UITabBar.appearance().backgroundColor = .systemBackground
+    }
 }
 
 
