@@ -103,7 +103,7 @@ class HomeViewController: UIViewController {
         view.addSubview(contenedorLabel)
         
         misLibrosLabel = UILabel(frame: CGRect(x: width/20, y: 0, width: 8*width/20, height: height/20))
-        misLibrosLabel.text = Constants.myBooks
+        misLibrosLabel.text = Constants.ourContent
         misLibrosLabel.font = .boldSystemFont(ofSize: 40)
         misLibrosLabel.textColor = .white
         misLibrosLabel.adjustsFontSizeToFitWidth = true
@@ -115,7 +115,7 @@ class HomeViewController: UIViewController {
         botonAdd.layer.borderWidth = 2
         botonAdd.layer.cornerRadius = 10
         botonAdd.layer.borderColor = UIColor.white.cgColor
-        //botonAdd.addTarget(self, action: #selector(tabButtonPushed), for: .touchUpInside)
+        botonAdd.addTarget(self, action: #selector(tabButtonPushed), for: .touchUpInside)
         
         contenedorLabel.addSubview(botonAdd)
         
@@ -131,10 +131,12 @@ class HomeViewController: UIViewController {
         
         
     }
-
     
     @objc private func tabButtonPushed() {
         print("Aprentando el botón")
+        let vc : UIViewController = AddContentViewController()
+        vc.modalPresentationStyle = .popover
+        present(vc, animated: true, completion: nil)
     }
     
     @objc func cierreSesion(){

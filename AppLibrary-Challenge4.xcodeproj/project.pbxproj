@@ -25,6 +25,9 @@
 		C5A7AF2627DBCD020081BAB3 /* AcountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2527DBCD020081BAB3 /* AcountViewController.swift */; };
 		C5A7AF2827DBD8FA0081BAB3 /* AuthorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2727DBD8FA0081BAB3 /* AuthorsViewController.swift */; };
 		C5A7AF2A27DBDC1E0081BAB3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2927DBDC1E0081BAB3 /* SearchViewController.swift */; };
+		C5A7AF2C27DBE31B0081BAB3 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2B27DBE31B0081BAB3 /* AddContentViewController.swift */; };
+		C5A7AF2E27DBE8740081BAB3 /* AddAuthorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2D27DBE8740081BAB3 /* AddAuthorsViewController.swift */; };
+		C5A7AF3027DBF2DB0081BAB3 /* UITextView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2F27DBF2DB0081BAB3 /* UITextView++.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +52,9 @@
 		C5A7AF2527DBCD020081BAB3 /* AcountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcountViewController.swift; sourceTree = "<group>"; };
 		C5A7AF2727DBD8FA0081BAB3 /* AuthorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorsViewController.swift; sourceTree = "<group>"; };
 		C5A7AF2927DBDC1E0081BAB3 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		C5A7AF2B27DBE31B0081BAB3 /* AddContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewController.swift; sourceTree = "<group>"; };
+		C5A7AF2D27DBE8740081BAB3 /* AddAuthorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAuthorsViewController.swift; sourceTree = "<group>"; };
+		C5A7AF2F27DBF2DB0081BAB3 /* UITextView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView++.swift"; sourceTree = "<group>"; };
 		F68E4EF0EED64D8A06E33AE9 /* Pods-AppLibrary-Challenge4.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLibrary-Challenge4.debug.xcconfig"; path = "Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,9 +128,11 @@
 				C54F7CAC27CC9B6C0057EDF3 /* ViewController.swift */,
 				C571846C27CDFFF500769EE0 /* RegistroViewController.swift */,
 				C571846E27CE00B400769EE0 /* HomeViewController.swift */,
+				C5A7AF2B27DBE31B0081BAB3 /* AddContentViewController.swift */,
 				C530202927D806CC00DFD505 /* ReusableTableViewCell.swift */,
 				C5A7AF2527DBCD020081BAB3 /* AcountViewController.swift */,
 				C5A7AF2727DBD8FA0081BAB3 /* AuthorsViewController.swift */,
+				C5A7AF2D27DBE8740081BAB3 /* AddAuthorsViewController.swift */,
 				C5A7AF2927DBDC1E0081BAB3 /* SearchViewController.swift */,
 			);
 			path = View;
@@ -135,6 +143,7 @@
 			children = (
 				C571846527CDEA6500769EE0 /* Constants.swift */,
 				C59F39D227CEF0E6007A4BF6 /* UITextField++.swift */,
+				C5A7AF2F27DBF2DB0081BAB3 /* UITextView++.swift */,
 				C59F39D427CF1C36007A4BF6 /* UIButton++.swift */,
 			);
 			path = Model;
@@ -265,13 +274,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				C59F39D327CEF0E6007A4BF6 /* UITextField++.swift in Sources */,
+				C5A7AF3027DBF2DB0081BAB3 /* UITextView++.swift in Sources */,
 				C5A7AF2427DBBE940081BAB3 /* RegistroViewModel.swift in Sources */,
+				C5A7AF2E27DBE8740081BAB3 /* AddAuthorsViewController.swift in Sources */,
 				C571846F27CE00B400769EE0 /* HomeViewController.swift in Sources */,
 				C5A7AF2827DBD8FA0081BAB3 /* AuthorsViewController.swift in Sources */,
 				C530202A27D806CC00DFD505 /* ReusableTableViewCell.swift in Sources */,
 				C54F7CAD27CC9B6C0057EDF3 /* ViewController.swift in Sources */,
 				C5A7AF2627DBCD020081BAB3 /* AcountViewController.swift in Sources */,
 				C59F39D527CF1C36007A4BF6 /* UIButton++.swift in Sources */,
+				C5A7AF2C27DBE31B0081BAB3 /* AddContentViewController.swift in Sources */,
 				C5A7AF2A27DBDC1E0081BAB3 /* SearchViewController.swift in Sources */,
 				C54F7CA927CC9B6C0057EDF3 /* AppDelegate.swift in Sources */,
 				C54F7CAB27CC9B6C0057EDF3 /* SceneDelegate.swift in Sources */,
