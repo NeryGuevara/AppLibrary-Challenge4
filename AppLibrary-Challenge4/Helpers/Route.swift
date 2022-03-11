@@ -47,14 +47,15 @@ enum Route {
     private func instantiateNewItemAlert(title: String, observer: Observable<Crypto>, buttonHandler: @escaping () ->()) -> UIViewController {
         let alertController: UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         alertController.addTextField(configurationHandler: nil)
-        
+        alertController.addTextField(configurationHandler: nil)
         let acceptAction: UIAlertAction = UIAlertAction(title: Constants.accept, style: .default) { _ in
-            guard let currencyNameTextField: UITextField = alertController.textFields?[0] else {
+            guard let currencyNameTextField: UITextField = alertController.textFields?[0],
+                  let abreviationTextField: UITextField = alertController.textFields?[1] else {
                       buttonHandler()
                       return
                   }
             observer.value?.name = currencyNameTextField.text ?? ""
-            
+            observer.value?.abbreviation = abreviationTextField.text ?? ""
             buttonHandler()
         }
         

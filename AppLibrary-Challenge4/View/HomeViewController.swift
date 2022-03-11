@@ -19,6 +19,10 @@ class HomeViewController: UIViewController {
     lazy var nombre : UILabel = UILabel()
     lazy var botonCierre: UIButton = UIButton()
     lazy var labelBotonCierre : UILabel = UILabel()
+    lazy var contenedorLabel : UIView = UIView()
+    lazy var misLibrosLabel : UILabel = UILabel()
+    lazy var botonAdd : UIButton = UIButton()
+    lazy var labelBotonAdd : UILabel = UILabel()
     
     lazy var cryptoTableView : UITableView = UITableView()
     
@@ -78,20 +82,50 @@ class HomeViewController: UIViewController {
         
         botonCierre.addSubview(labelBotonCierre)
     
-        cryptoTableView = UITableView(frame: CGRect(x: 0, y: height/2+height/18, width: width, height: height/2-height/18))
+        cryptoTableView = UITableView(frame: CGRect(x: 0, y: height/2+height/18, width: width, height: height/2-height/7))
         cryptoTableView.backgroundColor = .systemGray5
         // Designar delegate y data source del table view
         self.cryptoTableView.delegate = self
         self.cryptoTableView.dataSource = self
         // EL .self despues del nombre de la clase, hace que pasemos como parametro el nombre de la clase
         self.cryptoTableView.register(ReusableTableViewCell.self, forCellReuseIdentifier: ReusableTableViewCell.reuseIdentifier)
+        cryptoTableView.layer.cornerRadius = 20
         view.addSubview(cryptoTableView)
         
-        // Add item button
-        //let barButton: UIBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: { action in
-        //    self.tabButtonPushed()
-        //}), menu: nil)
-        //self.navigationItem.setRightBarButton(barButton, animated: true)
+        contenedorLabel = UIView(frame: CGRect(x: width/6, y: height/2, width: 2*width/3, height: height/20))
+        contenedorLabel.layer.cornerRadius = 10
+        contenedorLabel.backgroundColor = .systemBlue
+        contenedorLabel.layer.borderColor = UIColor.systemBlue.cgColor
+        view.addSubview(contenedorLabel)
+        
+        misLibrosLabel = UILabel(frame: CGRect(x: width/20, y: 0, width: 8*width/20, height: height/20))
+        misLibrosLabel.text = Constants.myBooks
+        misLibrosLabel.font = .boldSystemFont(ofSize: 40)
+        misLibrosLabel.textColor = .white
+        misLibrosLabel.adjustsFontSizeToFitWidth = true
+        misLibrosLabel.textAlignment = .center
+        
+        contenedorLabel.addSubview(misLibrosLabel)
+        
+        botonAdd = UIButton(frame: CGRect(x: width/2, y: height/200, width: width/6 - width/20, height: height/20 - height/100))
+        botonAdd.layer.borderWidth = 2
+        botonAdd.layer.cornerRadius = 10
+        botonAdd.layer.borderColor = UIColor.white.cgColor
+        botonAdd.addTarget(self, action: #selector(tabButtonPushed), for: .touchUpInside)
+        
+        contenedorLabel.addSubview(botonAdd)
+        
+        labelBotonAdd = UILabel(frame: CGRect(x: 0, y: 0, width: width/6 - width/20, height:  height/20 - height/100))
+        labelBotonAdd.font = .boldSystemFont(ofSize: 100)
+        labelBotonAdd.adjustsFontSizeToFitWidth = true
+        labelBotonAdd.text = "+"
+        labelBotonAdd.textColor = .white
+        labelBotonAdd.textAlignment = .center
+        labelBotonAdd.backgroundColor = .clear
+        
+        botonAdd.addSubview(labelBotonAdd)
+        
+        
     }
     
     func initViewModel() {
@@ -113,7 +147,8 @@ class HomeViewController: UIViewController {
         }
     }
     
-    private func tabButtonPushed() {
+    @objc private func tabButtonPushed() {
+        print("Aprentando el botón")
         viewModel.didTappedBarButton()
     }
     

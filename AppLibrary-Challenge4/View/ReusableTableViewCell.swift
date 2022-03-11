@@ -26,7 +26,7 @@ class ReusableTableViewCell: UITableViewCell {
         
         ownContent = UIView(frame: CGRect(x: 5, y: 5, width: width - 10, height: height/7 - 10))
         ownContent.backgroundColor = .systemGray3
-        ownContent.layer.cornerRadius = 8
+        ownContent.layer.cornerRadius = 20
         
         contentView.addSubview(ownContent)
         

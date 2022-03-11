@@ -58,8 +58,10 @@ class ExchangeRateViewController: UIViewController {
     }
     
     func showErrorLabel() {
-        errorLabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        errorLabel.text = "ErrorLabel"
+        errorLabel = UILabel(frame: CGRect(x: width/4, y: 0, width: width/2, height: height/2))
+        errorLabel.text = Constants.errorBook
+        errorLabel.font = .boldSystemFont(ofSize: 30)
+        errorLabel.adjustsFontSizeToFitWidth = true
         view.addSubview(errorLabel)
     }
     

@@ -40,5 +40,6 @@ struct Constants{
     static let showPass : String = "Show password"
     static let showPasswords : String = "Show passwords"
     static let addNewBookTitle : String = "Add new book"
-    
+    static let errorBook : String = "Book not found"
+    static let myBooks : String = "My books"
 }
