@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BuySellViewController: UIViewController {
+/*class BuySellViewController: UIViewController {
     
     var viewModel: BuySellViewModel = BuySellViewModel()
     lazy var sellInfoView: RateView = RateView()
@@ -47,4 +47,4 @@ class BuySellViewController: UIViewController {
         
     }
     
-}
+ /*}*/*/

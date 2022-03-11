@@ -38,10 +38,15 @@ final class CryptoViewModel {
         return cryptoDataSource.value?.count ?? 0
     }
     
-    func didSelectCell(at index: Int) {
+    func didSelectCell(at index: Int) -> Crypto{
         let selectedCrypto: Crypto = cryptoDataSource.value?[index] ?? Crypto(name: "NA", abbreviation: "NA")
         let route: Route = Route.exchangeView(crypto: selectedCrypto)
         self.route.value = route
+        
+        print(selectedCrypto)
+        
+        return selectedCrypto
+        
     }
     
     func didTappedBarButton() {
@@ -50,7 +55,7 @@ final class CryptoViewModel {
             print(crypto)
         }
         
-        let route: Route = Route.newItemAlert(title: "Constants.addNewCryptoCurrencyTitle", observer: newCryptoCurrency!) { [weak self] in
+        let route: Route = Route.newItemAlert(title: Constants.addNewBookTitle, observer: newCryptoCurrency!) { [weak self] in
             guard let self = self,
                   let newCrypto: Observable<Crypto> = self.newCryptoCurrency,
                   var dataSource: [Crypto] = self.cryptoDataSource.value

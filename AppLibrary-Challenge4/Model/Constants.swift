@@ -38,5 +38,7 @@ struct Constants{
     static let errorCount : String = "The data entered are invalid"
     static let errorInternal : String = "Internal error, we will work to fix it"
     static let showPass : String = "Show password"
+    static let showPasswords : String = "Show passwords"
+    static let addNewBookTitle : String = "Add new book"
     
 }

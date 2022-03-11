@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RateView: UIView {
+/*class RateView: UIView {
     var titleLabel: UILabel?
     var valueLabel: UILabel?
     var currencyLabel: UILabel?
@@ -40,4 +40,4 @@ class RateView: UIView {
         backgroundColor = UIColor.systemGray5
     }
     
-}
+}*/

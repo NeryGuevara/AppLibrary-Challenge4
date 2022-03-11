@@ -106,9 +106,9 @@ class HomeViewController: UIViewController {
                   let nextViewController = route.viewController else { return }
             // In case that the next view is a whole view controller
             if case Route.exchangeView(crypto: _) = route {
-                self.navigationController?.pushViewController(nextViewController, animated: true)
+                self.navigationController?.pushViewController(nextViewController, animated: false)
             } else { // In case that the next view is a alert
-                self.present(nextViewController, animated: true, completion: nil)
+                self.present(nextViewController, animated: false, completion: nil)
             }
         }
     }
@@ -129,13 +129,22 @@ class HomeViewController: UIViewController {
         present(alerta, animated: true, completion: nil)
     }
     
+    
+    
 }
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didSelectCell(at: indexPath.row)
-        tableView.deselectRow(at: indexPath, animated: true)
+        let viewModel: ExchangeViewModel = ExchangeViewModel(crypto: viewModel.didSelectCell(at: indexPath.row))
+        let viewController: ExchangeRateViewController = ExchangeRateViewController()
+         viewController.setViewModel(viewModel)
+        
+        viewController.modalPresentationStyle = .fullScreen
+        
+        present(viewController, animated: true, completion: nil)
+        
     }
+    
 }
 
 extension HomeViewController: UITableViewDataSource {
@@ -160,6 +169,8 @@ extension HomeViewController: UITableViewDataSource {
         cell.initUI(model: currency)
         return cell
     }
+    
+    
 }
 
 

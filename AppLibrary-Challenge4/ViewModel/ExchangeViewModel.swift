@@ -49,8 +49,8 @@ class ExchangeViewModel {
         return crypto.name
     }
     
-    func didSelectRowAt(index: Int) {
+    /*func didSelectRowAt(index: Int) {
         let data: ExchangeRateModel = exchangeData.value?[index] ?? ExchangeRateModel(currency: "", value: "")
         route.value = Route.sellBuy(firstCurrency: crypto.abbreviation, secondCurrency: data.currency)
-    }
+    }*/
 }

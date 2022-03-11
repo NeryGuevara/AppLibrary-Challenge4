@@ -134,14 +134,14 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(contrasenaTextConfirm)
         
-        mostrarContrasenaButton = UIButton(frame: CGRect(x: width/3 - 20, y: 11*height/22 + height/16, width: width/3, height: height/30))
+        mostrarContrasenaButton = UIButton(frame: CGRect(x: 9*width/30 - 20, y: 11*height/22 + height/16, width: 12*width/30, height: height/30))
         mostrarContrasenaButton.backgroundColor = .clear
         mostrarContrasenaButton.layer.borderColor = UIColor.clear.cgColor
         mostrarContrasenaButton.addTarget(self, action: #selector(verPass), for: .allTouchEvents)
         contenedor.addSubview(mostrarContrasenaButton)
         
-        labelMostrarContrasena = UILabel(frame: CGRect(x: 0, y: 0, width: width/3, height: height/24))
-        labelMostrarContrasena.text = Constants.showPass
+        labelMostrarContrasena = UILabel(frame: CGRect(x: 0, y: 0, width: 12*width/30, height: height/24))
+        labelMostrarContrasena.text = Constants.showPasswords
         labelMostrarContrasena.textAlignment = .center
         labelMostrarContrasena.backgroundColor = .clear
         labelMostrarContrasena.textColor = .systemBlue
