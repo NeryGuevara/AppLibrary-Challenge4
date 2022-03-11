@@ -7,6 +7,8 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
+import FirebaseStorage
 
 class HomeViewController: UIViewController {
 
@@ -26,8 +28,12 @@ class HomeViewController: UIViewController {
     
     lazy var librosTableView : UITableView = UITableView()
 
+    var ref: DatabaseReference?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference() //Conexión a la base de datos
 
         view.backgroundColor = .systemBackground
         
@@ -52,7 +58,12 @@ class HomeViewController: UIViewController {
         view.addSubview(hola)
         
         nombre = UILabel(frame: CGRect(x: 20, y: height/15 + 40, width: width-40, height: 42))
-        nombre.text = Constants.nameNotFound
+        let userId = (Auth.auth().currentUser?.uid)!
+        ref?.child("users").child(userId).observeSingleEvent(of: .value, with: { [self] (snatshop) in
+            let value = snatshop.value as? NSDictionary
+            
+            nombre.text = value?["nombre"] as? String ?? Constants.nameNotFound
+        })
         nombre.font = .boldSystemFont(ofSize: 33)
         nombre.textColor = UIColor.systemBlue
         nombre.textAlignment = .left

@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class RegistroViewController: UIViewController {
 
@@ -27,11 +29,12 @@ class RegistroViewController: UIViewController {
     lazy var labelMostrarContrasena : UILabel = UILabel()
     lazy var mostrarContrasenaButton : UIButton = UIButton()
     
-    var alerta : String = ""
+    var ref: DatabaseReference?
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        ref = Database.database().reference()
         
         view.backgroundColor = .systemBackground
         
@@ -143,7 +146,7 @@ class RegistroViewController: UIViewController {
         
         botonRegistro = UIButton(frame: CGRect(x: width/10, y: 5*height/6, width: 8*width/10, height: height/18))
         botonRegistro.blueFormat()
-        //botonRegistro?.addTarget(self, action: #selector(registroAction), for: .touchUpInside)
+        botonRegistro.addTarget(self, action: #selector(registroAction), for: .touchUpInside)
         
         view.addSubview(botonRegistro)
         
@@ -167,4 +170,44 @@ class RegistroViewController: UIViewController {
         contrasenaTextConfirm.isSecureTextEntry.toggle()
     }
     
+    @objc func registroAction(){
+        if let nombre = usuarioText.text, let correo = correoText.text, let contrasena = contrasenaText.text, let confirmacionContrasena = contrasenaTextConfirm.text{
+            let resultado : String = validarCampos(nombre: nombre, mail: correo, contrasena: contrasena, confirmacionContrasena: confirmacionContrasena)
+            if resultado == "OK"{
+                registroTerminado(nombre: nombre, correo: correo, pass: contrasena)
+            }else{
+                let alert = UIAlertController(title: Constants.error, message: resultado, preferredStyle: .alert)
+                let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+                alert.addAction(aceptar)
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func registroTerminado(nombre: String, correo: String, pass: String){
+        Auth.auth().createUser(withEmail: correo, password: pass) { [self] user, error in
+            if user != nil{
+                let campos = ["nombre": nombre, "email": correo, "id": Auth.auth().currentUser?.uid]
+                ref?.child("users").child(Auth.auth().currentUser!.uid).setValue(campos)
+                
+                self.dismiss(animated: true, completion: nil)
+            }else{
+                if let error = error?.localizedDescription{
+                    print("Error en Firebase:", error)
+                    let alert = UIAlertController(title: Constants.error, message: error, preferredStyle: .alert)
+                    let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+                    alert.addAction(aceptar)
+                    self.present(alert, animated: true, completion: nil)
+                }else{
+                    let alert = UIAlertController(title: Constants.error, message: "Error en el código fuente", preferredStyle: .alert)
+                    let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+                    alert.addAction(aceptar)
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+        
+    }
+    
 }
+
