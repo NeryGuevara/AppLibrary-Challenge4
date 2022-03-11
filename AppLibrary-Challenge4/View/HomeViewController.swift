@@ -24,17 +24,15 @@ class HomeViewController: UIViewController {
     lazy var botonAdd : UIButton = UIButton()
     lazy var labelBotonAdd : UILabel = UILabel()
     
-    lazy var cryptoTableView : UITableView = UITableView()
-    
-    private lazy var viewModel: CryptoViewModel = CryptoViewModel(localDataManager: CryptoViewLocalDataManager())
-    
+    lazy var librosTableView : UITableView = UITableView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
         
         initUI()
-        initViewModel()
+        
     }
     
     func initUI(){
@@ -82,15 +80,10 @@ class HomeViewController: UIViewController {
         
         botonCierre.addSubview(labelBotonCierre)
     
-        cryptoTableView = UITableView(frame: CGRect(x: 0, y: height/2+height/18, width: width, height: height/2-height/7))
-        cryptoTableView.backgroundColor = .systemGray5
-        // Designar delegate y data source del table view
-        self.cryptoTableView.delegate = self
-        self.cryptoTableView.dataSource = self
-        // EL .self despues del nombre de la clase, hace que pasemos como parametro el nombre de la clase
-        self.cryptoTableView.register(ReusableTableViewCell.self, forCellReuseIdentifier: ReusableTableViewCell.reuseIdentifier)
-        cryptoTableView.layer.cornerRadius = 20
-        view.addSubview(cryptoTableView)
+        librosTableView = UITableView(frame: CGRect(x: 0, y: height/2+height/18, width: width, height: height/2-height/7))
+        librosTableView.backgroundColor = .systemGray5
+        librosTableView.layer.cornerRadius = 20
+        view.addSubview(librosTableView)
         
         contenedorLabel = UIView(frame: CGRect(x: width/6, y: height/2, width: 2*width/3, height: height/20))
         contenedorLabel.layer.cornerRadius = 10
@@ -111,7 +104,7 @@ class HomeViewController: UIViewController {
         botonAdd.layer.borderWidth = 2
         botonAdd.layer.cornerRadius = 10
         botonAdd.layer.borderColor = UIColor.white.cgColor
-        botonAdd.addTarget(self, action: #selector(tabButtonPushed), for: .touchUpInside)
+        //botonAdd.addTarget(self, action: #selector(tabButtonPushed), for: .touchUpInside)
         
         contenedorLabel.addSubview(botonAdd)
         
@@ -127,29 +120,10 @@ class HomeViewController: UIViewController {
         
         
     }
-    
-    func initViewModel() {
-        viewModel.cryptoDataSource.valueChanged = { [weak self] cryptoDataSource in
-            self?.cryptoTableView.reloadData()
-        }
-        viewModel.obtainAvailableCryptos()
-        
-        viewModel.route.valueChanged = { [weak self] optionalRouter in
-            guard let self = self,
-                  let route: Route = optionalRouter,
-                  let nextViewController = route.viewController else { return }
-            // In case that the next view is a whole view controller
-            if case Route.exchangeView(crypto: _) = route {
-                self.navigationController?.pushViewController(nextViewController, animated: false)
-            } else { // In case that the next view is a alert
-                self.present(nextViewController, animated: false, completion: nil)
-            }
-        }
-    }
+
     
     @objc private func tabButtonPushed() {
         print("Aprentando el botón")
-        viewModel.didTappedBarButton()
     }
     
     @objc func cierreSesion(){
@@ -167,45 +141,3 @@ class HomeViewController: UIViewController {
     
     
 }
-
-extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewModel: ExchangeViewModel = ExchangeViewModel(crypto: viewModel.didSelectCell(at: indexPath.row))
-        let viewController: ExchangeRateViewController = ExchangeRateViewController()
-         viewController.setViewModel(viewModel)
-        
-        viewController.modalPresentationStyle = .fullScreen
-        
-        present(viewController, animated: true, completion: nil)
-        
-    }
-    
-}
-
-extension HomeViewController: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.obtainNumberOfAvailableCryptos()
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return height/7
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: ReusableTableViewCell = tableView.dequeueReusableCell(withIdentifier: ReusableTableViewCell.reuseIdentifier, for: indexPath) as? ReusableTableViewCell else { return UITableViewCell() }
-        
-        let currency: Crypto = viewModel.obtainCrypto(at: indexPath.row)
-        
-        cell.initUI(model: currency)
-        return cell
-    }
-    
-    
-}
-
-

@@ -20,7 +20,7 @@ class ReusableTableViewCell: UITableViewCell {
     
     var ownContent = UIView()
     
-    func initUI(model: TableViewCellVieable) {
+    func initUI() {
         
         self.backgroundColor = .systemGray5
         
@@ -32,7 +32,7 @@ class ReusableTableViewCell: UITableViewCell {
         
         //Agregar los labels a las views
         nameLabel = UILabel(frame: CGRect(x: (width-20)/4, y: 0, width: 3*(width-20)/4, height: (height/7 - 10)/3))
-        nameLabel?.text = model.title
+        //nameLabel?.text = model.title
         nameLabel?.textAlignment = .left
         nameLabel?.font = .boldSystemFont(ofSize: 18)
         nameLabel?.textColor = .systemBlue
@@ -40,7 +40,7 @@ class ReusableTableViewCell: UITableViewCell {
         ownContent.addSubview(nameLabel!)
         
         subtitleLabel = UILabel(frame: CGRect(x: (width-20)/4, y: (height/7 - 10)/3, width: 5*(width-20)/8, height: (height/7 - 10)/3))
-        subtitleLabel?.text = model.subtitle
+        //subtitleLabel?.text = model.subtitle
         subtitleLabel?.textAlignment = .left
         subtitleLabel?.font = .boldSystemFont(ofSize: 14)
         subtitleLabel?.textColor = .systemBlue

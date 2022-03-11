@@ -30,8 +30,6 @@ class ViewController: UIViewController {
     
     lazy var cryptoTableView: UITableView = UITableView()
     
-    private lazy var viewModel: CryptoViewModel = CryptoViewModel(localDataManager: CryptoViewLocalDataManager())
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sesionActiva()

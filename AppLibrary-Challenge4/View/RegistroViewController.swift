@@ -19,7 +19,6 @@ class RegistroViewController: UIViewController {
     lazy var contenedor: UIView = UIView()
     lazy var titulo: UILabel = UILabel()
     lazy var usuarioText: UITextField = UITextField()
-    lazy var libroText: UITextField = UITextField()
     lazy var correoText: UITextField = UITextField()
     lazy var contrasenaText: UITextField = UITextField()
     lazy var contrasenaTextConfirm: UITextField = UITextField()
@@ -71,7 +70,7 @@ class RegistroViewController: UIViewController {
         
         view.addSubview(mensaje)
         
-        contenedor = UIView(frame: CGRect(x: 20, y: 5*height/18, width: width-40, height: 14*height/22))
+        contenedor = UIView(frame: CGRect(x: 20, y: 5*height/18, width: width-40, height: 6*height/11))
         contenedor.backgroundColor = .systemGray3
         contenedor.layer.cornerRadius = 20
         
@@ -95,16 +94,7 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(usuarioText)
         
-        libroText = UITextField(frame: CGRect(x: (width-40)/20, y: 5*height/22, width: 18*(width-40)/20, height: height/18))
-        libroText.format()
-        libroText.attributedPlaceholder = NSAttributedString(
-            string: Constants.enterBook,
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
-        )
-        
-        contenedor.addSubview(libroText)
-        
-        correoText = UITextField(frame: CGRect(x: (width-40)/20, y: 7*height/22, width: 18*(width-40)/20, height: height/18))
+        correoText = UITextField(frame: CGRect(x: (width-40)/20, y: 5*height/22, width: 18*(width-40)/20, height: height/18))
         correoText.format()
         correoText.attributedPlaceholder = NSAttributedString(
             string: Constants.enterEmail,
@@ -114,7 +104,7 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(correoText)
         
-        contrasenaText = UITextField(frame: CGRect(x: (width-40)/20, y: 9*height/22, width: 18*(width-40)/20, height: height/18))
+        contrasenaText = UITextField(frame: CGRect(x: (width-40)/20, y: 7*height/22, width: 18*(width-40)/20, height: height/18))
         contrasenaText.format()
         contrasenaText.attributedPlaceholder = NSAttributedString(
             string: Constants.enterPassword,
@@ -124,7 +114,7 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(contrasenaText)
         
-        contrasenaTextConfirm = UITextField(frame: CGRect(x: (width-40)/20, y: 11*height/22, width: 18*(width-40)/20, height: height/18))
+        contrasenaTextConfirm = UITextField(frame: CGRect(x: (width-40)/20, y: 9*height/22, width: 18*(width-40)/20, height: height/18))
         contrasenaTextConfirm.format()
         contrasenaTextConfirm.attributedPlaceholder = NSAttributedString(
             string: Constants.enterPasswordConfirm,
@@ -134,7 +124,7 @@ class RegistroViewController: UIViewController {
         
         contenedor.addSubview(contrasenaTextConfirm)
         
-        mostrarContrasenaButton = UIButton(frame: CGRect(x: 9*width/30 - 20, y: 11*height/22 + height/16, width: 12*width/30, height: height/30))
+        mostrarContrasenaButton = UIButton(frame: CGRect(x: 9*width/30 - 20, y: 9*height/22 + height/16, width: 12*width/30, height: height/30))
         mostrarContrasenaButton.backgroundColor = .clear
         mostrarContrasenaButton.layer.borderColor = UIColor.clear.cgColor
         mostrarContrasenaButton.addTarget(self, action: #selector(verPass), for: .allTouchEvents)
@@ -151,7 +141,7 @@ class RegistroViewController: UIViewController {
         mostrarContrasenaButton.addSubview(labelMostrarContrasena)
         
         
-        botonRegistro = UIButton(frame: CGRect(x: width/10, y: 32*height/36, width: 8*width/10, height: height/18))
+        botonRegistro = UIButton(frame: CGRect(x: width/10, y: 5*height/6, width: 8*width/10, height: height/18))
         botonRegistro.blueFormat()
         //botonRegistro?.addTarget(self, action: #selector(registroAction), for: .touchUpInside)
         
