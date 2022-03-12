@@ -15,12 +15,16 @@ class AccountViewController: UIViewController {
     let width = Constants.width
     let height = Constants.height
     
+    var email : String = ""
+    
     lazy var topImage : UIImageView = UIImageView()
     lazy var linea : UIView = UIView()
     lazy var hola : UILabel = UILabel()
     lazy var nombre : UILabel = UILabel()
     lazy var botonCierre: UIButton = UIButton()
     lazy var labelBotonCierre : UILabel = UILabel()
+    lazy var correoLabel : UILabel = UILabel()
+    lazy var correoValorLabel : UILabel = UILabel()
     
     var ref: DatabaseReference?
     
@@ -30,7 +34,7 @@ class AccountViewController: UIViewController {
         ref = Database.database().reference() //Conexión a la base de datos
 
         view.backgroundColor = .systemBackground
-        
+    
         initUI()
     }
     
@@ -53,7 +57,6 @@ class AccountViewController: UIViewController {
         let userId = (Auth.auth().currentUser?.uid)!
         ref?.child("users").child(userId).observeSingleEvent(of: .value, with: { [self] (snatshop) in
             let value = snatshop.value as? NSDictionary
-            
             nombre.text = value?["nombre"] as? String ?? Constants.nameNotFound
         })
         nombre.font = .boldSystemFont(ofSize: 33)
@@ -82,6 +85,27 @@ class AccountViewController: UIViewController {
         labelBotonCierre.adjustsFontSizeToFitWidth = true
         
         botonCierre.addSubview(labelBotonCierre)
+        
+        correoLabel = UILabel(frame: CGRect(x: width/10, y: height/2-height/18-height/12, width: 8*width/10, height: height/12))
+        correoLabel.numberOfLines = 0
+        correoLabel.text = Constants.enterEmail + ": "
+        correoLabel.font = .boldSystemFont(ofSize: 30)
+        correoLabel.textColor = .systemBlue
+        correoLabel.adjustsFontSizeToFitWidth = true
+        
+        view.addSubview(correoLabel)
+        
+        correoValorLabel = UILabel(frame: CGRect(x: width/10, y: height/2-height/18, width: 8*width/10, height: height/4))
+        let userId2 = (Auth.auth().currentUser?.uid)!
+        ref?.child("users").child(userId2).observeSingleEvent(of: .value, with: { [self] (snatshop) in
+            let value = snatshop.value as? NSDictionary
+            correoValorLabel.text = value?["email"] as? String ?? Constants.nameNotFound
+        })
+        correoValorLabel.font = .boldSystemFont(ofSize: 30)
+        correoValorLabel.textColor = .systemBlue
+        correoValorLabel.adjustsFontSizeToFitWidth = true
+        
+        view.addSubview(correoValorLabel)
     }
     
     @objc func cierreSesion(){

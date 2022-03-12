@@ -10,10 +10,14 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 
-class AddContentViewController: UIViewController {
+class AddContentViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var ref: DatabaseReference?
     
     let width = Constants.width
     let height = Constants.height
+    
+    lazy var imagenContenido : UIImage = UIImage()
     
     lazy var agradecimiento : UILabel = UILabel()
     lazy var titulo : UITextField = UITextField()
@@ -23,9 +27,16 @@ class AddContentViewController: UIViewController {
     lazy var obraLabel : UILabel = UILabel()
     lazy var obra : UITextView = UITextView()
     lazy var imagen : UIImageView = UIImageView()
-
+    
+    lazy var botonSubirImagen : UIButton = UIButton()
+    lazy var labelSubirImagen : UILabel = UILabel()
+    lazy var botonGuardado : UIButton = UIButton()
+    lazy var labelGuardado : UILabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference()
         
         view.backgroundColor = .systemBackground
         
@@ -86,7 +97,7 @@ class AddContentViewController: UIViewController {
         
         view.addSubview(obra)
         
-        imagen = UIImageView(frame: CGRect(x: width/8, y: 8*height/12, width: 1*width/4, height: 3*width/8))
+        imagen = UIImageView(frame: CGRect(x: width/8, y: 8*height/12, width: 5*height/36, height: 5*height/24))
         imagen.layer.borderColor = UIColor.systemBlue.cgColor
         imagen.layer.borderWidth = 1
         imagen.layer.cornerRadius = 5
@@ -95,9 +106,112 @@ class AddContentViewController: UIViewController {
         
         view.addSubview(imagen)
         
+        botonSubirImagen = UIButton(frame: CGRect(x: width/2, y: 8*height/12, width: 3*width/8, height: height/18))
+        botonSubirImagen.blueFormat()
+        botonSubirImagen.addTarget(self, action: #selector(agregarImagen), for: .touchUpInside)
+        
+        view.addSubview(botonSubirImagen)
+        
+        labelSubirImagen = UILabel(frame: CGRect(x: width/16, y: 0, width: width/4, height: height/18))
+        labelSubirImagen.font = .boldSystemFont(ofSize: 30)
+        labelSubirImagen.text = Constants.uploadImage
+        labelSubirImagen.textColor = .white
+        labelSubirImagen.adjustsFontSizeToFitWidth = true
+        
+        botonSubirImagen.addSubview(labelSubirImagen)
+        
+        botonGuardado = UIButton(frame: CGRect(x: width/2, y: 18*height/24, width: 3*width/8, height: height/8))
+        botonGuardado.backgroundColor = .orange
+        botonGuardado.layer.cornerRadius = 10
+        botonGuardado.addTarget(self, action: #selector(agregarImagen), for: .touchUpInside)
+        
+        view.addSubview(botonGuardado)
+        
+        labelGuardado = UILabel(frame: CGRect(x: width/16, y: 0, width: width/4, height: height/10))
+        labelGuardado.font = .boldSystemFont(ofSize: 30)
+        labelGuardado.text = Constants.save
+        labelGuardado.textColor = .white
+        labelGuardado.adjustsFontSizeToFitWidth = true
+        
+        botonGuardado.addSubview(labelGuardado)
+        
         
     }
     
+    @objc func agregarImagen(){
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func redimensionarImagen(image: UIImage, targetSize: CGSize) -> UIImage{
+        let size = image.size
+        
+        let widthRatio = targetSize.width / size.width
+        let heigthRatio = targetSize.height / size.height
+        
+        var newSize: CGSize
+        if widthRatio > heigthRatio {
+            newSize = CGSize(width: size.width * heigthRatio, height: size.height * heigthRatio)
+        }else{
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        let imagenTomada = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
+        
+        imagenContenido = redimensionarImagen(image: (imagenTomada ?? UIImage(named: "defaultImage"))!, targetSize: CGSize(width: 200.0, height: 300.0))
+        
+        imagen.image = imagenContenido
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true)
+    }
+    
+    @objc func subirPublicacion(){
+        if let titulo = titulo.text, let autor = autor.text, let descripcion = descripcion.text, let obra = obra.text, let imagen = imagen.image{
+            if titulo != "" && autor != "" && descripcion != "" && obra != "" && imagen != UIImage(){
+                //Usar el storage para la imagen
+                let storage = Storage.storage().reference()
+                let nombreImagen = UUID()
+                let directorio = storage.child("imagenesPerfil/\(nombreImagen)")
+                let metadata = StorageMetadata()
+                metadata.contentType = "image/png"
+                
+                directorio.putData(imagenContenido.pngData()!, metadata: metadata) { (data, error) in
+                    if error == nil {
+                        print("se guardo imagen")
+                    }else{
+                        if let error = error?.localizedDescription{
+                            print("error en firebase al cargar imagen", error)
+                        }else{
+                            print("error de codigo")
+                        }
+                    }
+                }
+                //Usar la base de datos para la publicacion y relacionar la imagen del storage
+                
+            }else{
+                let alert = UIAlertController(title: Constants.error, message: Constants.errorFill, preferredStyle: .alert)
+                let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+                alert.addAction(aceptar)
+                present(alert, animated: true, completion: nil)
+            }
+        }
+    }
     
 
 }

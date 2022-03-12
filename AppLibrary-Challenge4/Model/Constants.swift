@@ -57,4 +57,7 @@ struct Constants{
     static let author : String = "Author"
     static let description : String = "Description:"
     static let work : String = "Work:"
+    static let uploadImage : String = "Upload image"
+    static let save : String = "Save content"
+    static let errorFill : String = "Please fill in all fields"
 }
