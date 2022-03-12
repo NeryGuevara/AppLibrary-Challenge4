@@ -123,7 +123,7 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
         botonGuardado = UIButton(frame: CGRect(x: width/2, y: 18*height/24, width: 3*width/8, height: height/8))
         botonGuardado.backgroundColor = .orange
         botonGuardado.layer.cornerRadius = 10
-        botonGuardado.addTarget(self, action: #selector(agregarImagen), for: .touchUpInside)
+        botonGuardado.addTarget(self, action: #selector(subirPublicacion), for: .touchUpInside)
         
         view.addSubview(botonGuardado)
         
@@ -187,7 +187,7 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
                 //Usar el storage para la imagen
                 let storage = Storage.storage().reference()
                 let nombreImagen = UUID()
-                let directorio = storage.child("imagenesPerfil/\(nombreImagen)")
+                let directorio = storage.child("imagenesPosts/\(nombreImagen)")
                 let metadata = StorageMetadata()
                 metadata.contentType = "image/png"
                 
@@ -203,7 +203,22 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
                     }
                 }
                 //Usar la base de datos para la publicacion y relacionar la imagen del storage
-                
+                guard let idPost = ref?.childByAutoId().key else { return  }
+                guard let idUser = Auth.auth().currentUser?.uid else { return }
+                let campos = ["titulo": titulo,
+                              "autor": autor,
+                              "descripcion": descripcion,
+                              "obra": obra,
+                              "imagenObra": String(describing: directorio),
+                              "idUser": idUser,
+                              "idPost": idPost]
+                ref?.child("posts").child(idPost).setValue(campos)
+                self.titulo.text = ""
+                self.autor.text = ""
+                self.descripcion.text = ""
+                self.obra.text = ""
+                self.imagen.image = UIImage()
+                dismiss(animated: true, completion: nil)
             }else{
                 let alert = UIAlertController(title: Constants.error, message: Constants.errorFill, preferredStyle: .alert)
                 let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)

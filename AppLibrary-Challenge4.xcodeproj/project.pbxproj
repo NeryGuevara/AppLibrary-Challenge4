@@ -10,7 +10,10 @@
 		6D66BA6193A41B08EE1F98CB /* Pods_AppLibrary_Challenge4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE86899BD7149698B409A6DE /* Pods_AppLibrary_Challenge4.framework */; };
 		C530202A27D806CC00DFD505 /* ReusableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C530202927D806CC00DFD505 /* ReusableTableViewCell.swift */; };
 		C5329A6D27DC1B7200FEBC21 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5329A6C27DC1B7200FEBC21 /* UserModel.swift */; };
-		C53A432627D024E000AAD840 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C53A432527D024E000AAD840 /* GoogleService-Info.plist */; };
+		C5329A7127DC339500FEBC21 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5329A7027DC339500FEBC21 /* GoogleService-Info.plist */; };
+		C5329A7327DC34F100FEBC21 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5329A7227DC34F100FEBC21 /* PostModel.swift */; };
+		C5329A7527DC39C000FEBC21 /* ContenidoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5329A7427DC39C000FEBC21 /* ContenidoTableViewCell.swift */; };
+		C5329A7727DC403600FEBC21 /* DetallesLibroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5329A7627DC403600FEBC21 /* DetallesLibroViewController.swift */; };
 		C54F7CA927CC9B6C0057EDF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F7CA827CC9B6C0057EDF3 /* AppDelegate.swift */; };
 		C54F7CAB27CC9B6C0057EDF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F7CAA27CC9B6C0057EDF3 /* SceneDelegate.swift */; };
 		C54F7CAD27CC9B6C0057EDF3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F7CAC27CC9B6C0057EDF3 /* ViewController.swift */; };
@@ -36,7 +39,10 @@
 		BE86899BD7149698B409A6DE /* Pods_AppLibrary_Challenge4.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLibrary_Challenge4.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C530202927D806CC00DFD505 /* ReusableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTableViewCell.swift; sourceTree = "<group>"; };
 		C5329A6C27DC1B7200FEBC21 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		C53A432527D024E000AAD840 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C5329A7027DC339500FEBC21 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C5329A7227DC34F100FEBC21 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		C5329A7427DC39C000FEBC21 /* ContenidoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContenidoTableViewCell.swift; sourceTree = "<group>"; };
+		C5329A7627DC403600FEBC21 /* DetallesLibroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetallesLibroViewController.swift; sourceTree = "<group>"; };
 		C54F7CA527CC9B6C0057EDF3 /* AppLibrary-Challenge4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppLibrary-Challenge4.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C54F7CA827CC9B6C0057EDF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C54F7CAA27CC9B6C0057EDF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,7 +125,7 @@
 				C54F7CB127CC9B6D0057EDF3 /* Assets.xcassets */,
 				C54F7CB327CC9B6D0057EDF3 /* LaunchScreen.storyboard */,
 				C54F7CB627CC9B6D0057EDF3 /* Info.plist */,
-				C53A432527D024E000AAD840 /* GoogleService-Info.plist */,
+				C5329A7027DC339500FEBC21 /* GoogleService-Info.plist */,
 			);
 			path = "AppLibrary-Challenge4";
 			sourceTree = "<group>";
@@ -130,6 +136,8 @@
 				C54F7CAC27CC9B6C0057EDF3 /* ViewController.swift */,
 				C571846C27CDFFF500769EE0 /* RegistroViewController.swift */,
 				C571846E27CE00B400769EE0 /* HomeViewController.swift */,
+				C5329A7627DC403600FEBC21 /* DetallesLibroViewController.swift */,
+				C5329A7427DC39C000FEBC21 /* ContenidoTableViewCell.swift */,
 				C5A7AF2B27DBE31B0081BAB3 /* AddContentViewController.swift */,
 				C530202927D806CC00DFD505 /* ReusableTableViewCell.swift */,
 				C5A7AF2527DBCD020081BAB3 /* AcountViewController.swift */,
@@ -148,6 +156,7 @@
 				C5A7AF2F27DBF2DB0081BAB3 /* UITextView++.swift */,
 				C59F39D427CF1C36007A4BF6 /* UIButton++.swift */,
 				C5329A6C27DC1B7200FEBC21 /* UserModel.swift */,
+				C5329A7227DC34F100FEBC21 /* PostModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -221,7 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C54F7CB527CC9B6D0057EDF3 /* LaunchScreen.storyboard in Resources */,
-				C53A432627D024E000AAD840 /* GoogleService-Info.plist in Resources */,
+				C5329A7127DC339500FEBC21 /* GoogleService-Info.plist in Resources */,
 				C54F7CB227CC9B6D0057EDF3 /* Assets.xcassets in Resources */,
 				C54F7CB027CC9B6C0057EDF3 /* Main.storyboard in Resources */,
 			);
@@ -277,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C59F39D327CEF0E6007A4BF6 /* UITextField++.swift in Sources */,
+				C5329A7327DC34F100FEBC21 /* PostModel.swift in Sources */,
 				C5A7AF3027DBF2DB0081BAB3 /* UITextView++.swift in Sources */,
 				C5A7AF2427DBBE940081BAB3 /* RegistroViewModel.swift in Sources */,
 				C5A7AF2E27DBE8740081BAB3 /* AddAuthorsViewController.swift in Sources */,
@@ -286,12 +296,14 @@
 				C54F7CAD27CC9B6C0057EDF3 /* ViewController.swift in Sources */,
 				C5329A6D27DC1B7200FEBC21 /* UserModel.swift in Sources */,
 				C5A7AF2627DBCD020081BAB3 /* AcountViewController.swift in Sources */,
+				C5329A7727DC403600FEBC21 /* DetallesLibroViewController.swift in Sources */,
 				C59F39D527CF1C36007A4BF6 /* UIButton++.swift in Sources */,
 				C5A7AF2C27DBE31B0081BAB3 /* AddContentViewController.swift in Sources */,
 				C5A7AF2A27DBDC1E0081BAB3 /* SearchViewController.swift in Sources */,
 				C54F7CA927CC9B6C0057EDF3 /* AppDelegate.swift in Sources */,
 				C54F7CAB27CC9B6C0057EDF3 /* SceneDelegate.swift in Sources */,
 				C571846D27CDFFF500769EE0 /* RegistroViewController.swift in Sources */,
+				C5329A7527DC39C000FEBC21 /* ContenidoTableViewCell.swift in Sources */,
 				C571846627CDEA6500769EE0 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

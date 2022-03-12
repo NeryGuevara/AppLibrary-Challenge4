@@ -166,7 +166,7 @@ class ViewController: UIViewController {
                 detalles.tabBarItem.image = UIImage(named: "account")
                 UITabBar.appearance().backgroundColor = .systemGray6
                 
-                tabBar.setViewControllers([home, authors, search, detalles], animated: true)
+                tabBar.setViewControllers([home, search, detalles], animated: true)
                 tabBar.modalPresentationStyle = .fullScreen
                 present(tabBar, animated: true)
                 
@@ -211,7 +211,7 @@ class ViewController: UIViewController {
                 UITabBar.appearance().backgroundColor = .systemGray6
                 
                 
-                tabBar.setViewControllers([home, authors, search, detalles], animated: true)
+                tabBar.setViewControllers([home, search, detalles], animated: true)
                 tabBar.modalPresentationStyle = .fullScreen
                 present(tabBar, animated: true)
             }

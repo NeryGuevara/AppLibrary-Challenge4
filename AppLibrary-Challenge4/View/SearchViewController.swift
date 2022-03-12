@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating {
 
     let width = Constants.width
     let height = Constants.height
@@ -21,18 +21,60 @@ class SearchViewController: UIViewController {
     lazy var nombre : UILabel = UILabel()
     lazy var botonCierre: UIButton = UIButton()
     lazy var labelBotonCierre : UILabel = UILabel()
+    
+    lazy var tabla : UITableView = UITableView()
 
     var ref: DatabaseReference?
     
+    let searchContoller = UISearchController(searchResultsController: nil)
+    
+    var postsList : [Posts] = []
+    var filtroPost : [Posts] = []
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
         
-        ref = Database.database().reference() //Conexión a la base de datos
-
         view.backgroundColor = .systemBackground
         
+        super.viewDidLoad()
+        
         initUI()
+        
+        searchContoller.searchResultsUpdater = self
+        searchContoller.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tabla.tableHeaderView = searchContoller.searchBar
+        
+        tabla.delegate = self
+        tabla.dataSource = self
+        ref = Database.database().reference()
+        
+        selesctPosts()
+        
     }
+    
+    func selesctPosts(){
+        ref?.child("posts").observe(DataEventType.value) { (snapshot) in
+            self.postsList.removeAll()
+            for item in snapshot.children.allObjects as! [DataSnapshot] {
+                let valores = item.value as? [String:AnyObject]
+                let titulo = valores!["titulo"] as? String ?? ""
+                let autor = valores!["autor"] as? String ?? ""
+                let descripcion = valores!["descripcion"] as? String ?? ""
+                let obra = valores!["obra"] as? String ?? ""
+                let imagenObra = valores!["imagenObra"] as? String ?? ""
+                let idUser = valores!["idUser"] as? String ?? ""
+                let idPost = valores!["idPost"] as? String ?? ""
+                
+                let post = Posts(titulo: titulo, autor: autor, descripcion: descripcion, obra: obra, imagenObra: imagenObra, idUser: idUser, idPost: idPost)
+                self.postsList.append(post)
+
+            }
+            DispatchQueue.main.async {
+                self.tabla.reloadData()
+            }
+        }
+    }
+    
     
     func initUI(){
         topImage = UIImageView(frame: CGRect(x: -20, y: -height/6, width: width*2, height: height/3))
@@ -82,6 +124,12 @@ class SearchViewController: UIViewController {
         labelBotonCierre.adjustsFontSizeToFitWidth = true
         
         botonCierre.addSubview(labelBotonCierre)
+        
+        tabla = UITableView(frame: CGRect(x: 0, y: 9*height/30, width: width, height: 18*height/30))
+        tabla.backgroundColor = .systemGray5
+        tabla.layer.cornerRadius = 20
+        view.addSubview(tabla)
+        
     }
     
     @objc func cierreSesion(){
@@ -94,6 +142,48 @@ class SearchViewController: UIViewController {
         alerta.addAction(aceptar)
         alerta.addAction(cancelar)
         present(alerta, animated: true, completion: nil)
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filtroContenido(buscador: self.searchContoller.searchBar.text!)
+    }
+    
+    func filtroContenido(buscador: String){
+        self.filtroPost = postsList.filter{ post in
+            let username = post.autor
+            return((username?.lowercased().contains(buscador.lowercased()))!)
+        }
+        DispatchQueue.main.async {
+            self.tabla.reloadData()
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(postsList.count)
+        return filtroPost.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : UITableViewCell = ContenidoTableViewCell(post: filtroPost[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return height/7
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Estoy en la sección \(indexPath.section) en la celda \(indexPath.row)")
+        
+        let post = filtroPost[indexPath.row]
+        let vc = DetallesLibroViewController(post: post)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+        
     }
     
 

@@ -10,8 +10,8 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 
-class HomeViewController: UIViewController {
-
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     let width = Constants.width
     let height = Constants.height
     
@@ -30,16 +30,45 @@ class HomeViewController: UIViewController {
 
     var ref: DatabaseReference?
     
+    var postsList : [Posts] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ref = Database.database().reference() //Conexión a la base de datos
-
+        initUI()
         view.backgroundColor = .systemBackground
         
-        initUI()
+        librosTableView.delegate = self
+        librosTableView.dataSource = self
+        ref = Database.database().reference()
+
+        selesctPosts()
         
     }
+    
+    func selesctPosts(){
+        ref?.child("posts").observe(DataEventType.value) { (snapshot) in
+            self.postsList.removeAll()
+            for item in snapshot.children.allObjects as! [DataSnapshot] {
+                let valores = item.value as? [String:AnyObject]
+                let titulo = valores!["titulo"] as? String ?? ""
+                let autor = valores!["autor"] as? String ?? ""
+                let descripcion = valores!["descripcion"] as? String ?? ""
+                let obra = valores!["obra"] as? String ?? ""
+                let imagenObra = valores!["imagenObra"] as? String ?? ""
+                let idUser = valores!["idUser"] as? String ?? ""
+                let idPost = valores!["idPost"] as? String ?? ""
+                
+                let post = Posts(titulo: titulo, autor: autor, descripcion: descripcion, obra: obra, imagenObra: imagenObra, idUser: idUser, idPost: idPost)
+                self.postsList.append(post)
+
+            }
+            DispatchQueue.main.async {
+                self.librosTableView.reloadData()
+            }
+        }
+    }
+    
     
     func initUI(){
         
@@ -151,6 +180,32 @@ class HomeViewController: UIViewController {
         present(alerta, animated: true, completion: nil)
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(postsList.count)
+        return postsList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : UITableViewCell = ContenidoTableViewCell(post: postsList[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return height/7
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Estoy en la sección \(indexPath.section) en la celda \(indexPath.row)")
+        
+        let post = postsList[indexPath.row]
+        let vc = DetallesLibroViewController(post: post)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+        
+    }
     
 }
