@@ -15,8 +15,9 @@ import UIKit
 struct Constants{
     static let width = UIScreen.main.bounds.width
     static let height = UIScreen.main.bounds.height
-    static let welcome : String = "Welcome!"
-    static let enterEmail : String = "Email"
+    
+    static let welcome : String = NSLocalizedString("Welcome!", comment: "")
+    static let enterEmail : String = NSLocalizedString("Email", comment: "")
     static let enterPassword : String = "Password"
     static let enterPasswordConfirm : String = "Confirm password"
     static let login : String = "Login"
@@ -49,7 +50,7 @@ struct Constants{
     static let search : String = "Search"
     static let alertNameIntro : String = "Please enter your username"
     static let alertNameBad : String = "The username entered is too short, please enter one with at least 4 characters."
-    static let alertMailIntro : String = "Please enter your email address"
+    static let alertMailIntro : String = "Please enter a valid email address"
     static let alertPassBad : String = "Please enter a valid password, it must contain at least 8 characters including at least one lowercase letter, one uppercase letter, one number and one special character."
     static let alertPassBadIntro : String = "Passwords do not match, please verify it"
     static let thanksContent : String = "Thank you for your contribution"

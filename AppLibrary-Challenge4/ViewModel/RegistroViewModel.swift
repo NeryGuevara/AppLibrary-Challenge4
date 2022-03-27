@@ -6,76 +6,115 @@
 //
 
 import Foundation
+import FirebaseAuth
+import FirebaseDatabase
+import Combine
 
-func validarCampos(nombre: String, mail: String, contrasena: String, confirmacionContrasena: String) -> String{
-    //La validación para el registro empieza con todo en falso (Porque todos los textfields están vacío)
+class RegistroViewModel{
     
-    var alerta = ""
+    var alerta : String = ""
     
-    var nombreIngresado = false
-    var nombreValido = false
-    var mailIngrasado = false
-    var contrasenaValidaIngresada = false
-    var confirmacionContrasenaIgrasada = false
-    //Estas validaciones son para la contraseña
-    var seguridadMinuscula = false
-    var seguridadMayuscula = false
-    var seguridadNumero = false
-    var seguridadEspecial = false
-    var seguridadCount = false
-    
-    if nombre != ""{
-        nombreIngresado = true
-    }else{
-        alerta = Constants.alertNameIntro
-    }
-    
-    
-    if nombre.count > 3{
-        nombreValido = true
-    }else{
-        alerta = Constants.alertNameBad
-    }
-    
-    if mail != ""{
-        mailIngrasado = true
-    }else{
-        alerta = Constants.alertMailIntro
-    }
-    
-    
-    
-    for i in contrasena{
-        switch i{
-            case "a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z":
-            seguridadMinuscula = true
-            case "A","B","C","D","E","F","G","H","I","J","K","L","M","N","Ñ","O","P","Q","R","S","T","U","V","W","X","Y","Z":
-            seguridadMayuscula = true
-            case "1","2","3","4","5","6","7","8","9","0":
-            seguridadNumero = true
-            default:
-            seguridadEspecial = true
+    fileprivate var newAlertText: String {
+        didSet{
+            validationState.send(newAlertText)
         }
     }
     
-    if contrasena.count >= 8{
-        seguridadCount = true
-    }
-    if seguridadMinuscula && seguridadMayuscula && seguridadNumero && seguridadEspecial && seguridadCount{
-            contrasenaValidaIngresada = true
-    }else{
-        alerta = Constants.alertPassBad
+    fileprivate var end: Bool {
+        didSet{
+            validationEnd.send(end)
+        }
     }
     
-    if confirmacionContrasena == contrasena{
-        confirmacionContrasenaIgrasada = true
-    }else{
-        alerta = Constants.alertPassBadIntro
+    public var validationState = PassthroughSubject<String,Never>()//declarando publisher
+    
+    public var validationEnd = PassthroughSubject<Bool,Never>()//declarando publisher
+        
+        
+    public func getAlert(nombre: String, mail: String, contrasena: String, confirmacionContrasena: String){//funcion que se va a llamar desde nuestro ViewController
+        var nombreIngresado = false
+        var nombreValido = false
+        var mailIngrasado = false
+        var contrasenaValidaIngresada = false
+        var confirmacionContrasenaIgrasada = false
+        
+        if nombre != ""{
+            nombreIngresado = true
+        }else{
+            alerta = Constants.alertNameIntro
+        }
+        
+        
+        if nombre.count > 3{
+            nombreValido = true
+        }else{
+            alerta = Constants.alertNameBad
+        }
+        
+        //Validaciones para el formato del correo
+        let regexMail = "^([a-z]|[A-Z])+(\\w|\\W)+@(([a-z]|[A-Z])+\\.([a-z]|[A-Z])+|([a-z]|[A-Z])+\\.([a-z]|[A-Z])+\\.([a-z]|[A-Z])+)$"
+        if (mail.range(of: regexMail, options: .regularExpression, range: nil, locale: nil) != nil){
+            mailIngrasado = true
+        }else{
+            alerta = Constants.alertMailIntro
+        }
+        
+        if confirmacionContrasena == contrasena{
+            confirmacionContrasenaIgrasada = true
+        }else{
+            alerta = Constants.alertPassBadIntro
+        }
+        
+        //Validaciones para la contraseña: Al menos una mayúscula, al menos una minúscula, al menos un número, al menos un carácter especial y al menos 8 caracteres
+        let regexContrasena = "^(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$"
+        if (contrasena.range(of: regexContrasena, options: .regularExpression, range: nil, locale: nil) != nil) {
+                contrasenaValidaIngresada = true
+        }else{
+            alerta = Constants.alertPassBad
+        }
+        
+        //Si se cumplieron las validaciones de los datos proporcionados se envía la petición del registro
+        if nombreIngresado && nombreValido && mailIngrasado && contrasenaValidaIngresada && confirmacionContrasenaIgrasada{
+            subirRegistro(nombre: nombre, correo: mail, pass: contrasena)
+        }else{
+            newAlert(message: alerta)
+        }
     }
     
-    if nombreIngresado && nombreValido && mailIngrasado && contrasenaValidaIngresada && confirmacionContrasenaIgrasada{
-        return "OK"
-    }else{
-        return alerta
+    init() {
+        self.newAlertText = ""
+        self.end = false
     }
+    
+     private func newAlert(message: String){
+        newAlertText = message
+    }
+    
+    private func finishRegister(){
+        end = true
+    }
+    
+    private func subirRegistro(nombre: String, correo: String, pass: String){
+        
+        var ref: DatabaseReference?
+        ref = Database.database().reference()
+        
+        Auth.auth().createUser(withEmail: correo, password: pass) { user, error in
+            if user != nil{
+                let campos = ["nombre": nombre, "email": correo, "id": Auth.auth().currentUser?.uid]
+                ref?.child("users").child(Auth.auth().currentUser!.uid).setValue(campos)
+                self.finishRegister()
+            }else{
+                if let error = error?.localizedDescription{
+                    self.newAlert(message: error)
+                }else{
+                    self.newAlert(message: Constants.errorInternal)
+                }
+            }
+        }
+        
+    }
+        
 }
+    
+

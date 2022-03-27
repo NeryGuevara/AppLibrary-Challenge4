@@ -47,9 +47,7 @@
 		C54F7CA827CC9B6C0057EDF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C54F7CAA27CC9B6C0057EDF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C54F7CAC27CC9B6C0057EDF3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C54F7CAF27CC9B6C0057EDF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C54F7CB127CC9B6D0057EDF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C54F7CB427CC9B6D0057EDF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C54F7CB627CC9B6D0057EDF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C571846527CDEA6500769EE0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C571846C27CDFFF500769EE0 /* RegistroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistroViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +61,8 @@
 		C5A7AF2B27DBE31B0081BAB3 /* AddContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewController.swift; sourceTree = "<group>"; };
 		C5A7AF2D27DBE8740081BAB3 /* AddAuthorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAuthorsViewController.swift; sourceTree = "<group>"; };
 		C5A7AF2F27DBF2DB0081BAB3 /* UITextView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView++.swift"; sourceTree = "<group>"; };
+		C5B7DE7F27ED9944004AE6C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C5B7DE8027ED9945004AE6C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F68E4EF0EED64D8A06E33AE9 /* Pods-AppLibrary-Challenge4.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLibrary-Challenge4.debug.xcconfig"; path = "Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -212,7 +212,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
 			mainGroup = C54F7C9C27CC9B6B0057EDF3;
 			productRefGroup = C54F7CA627CC9B6C0057EDF3 /* Products */;
@@ -314,7 +313,7 @@
 		C54F7CAE27CC9B6C0057EDF3 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C54F7CAF27CC9B6C0057EDF3 /* Base */,
+				C5B7DE7F27ED9944004AE6C7 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -322,7 +321,7 @@
 		C54F7CB327CC9B6D0057EDF3 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C54F7CB427CC9B6D0057EDF3 /* Base */,
+				C5B7DE8027ED9945004AE6C7 /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

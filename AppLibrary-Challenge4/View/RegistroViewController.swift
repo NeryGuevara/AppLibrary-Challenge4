@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import Combine
 
 class RegistroViewController: UIViewController {
 
@@ -29,16 +30,19 @@ class RegistroViewController: UIViewController {
     lazy var labelMostrarContrasena : UILabel = UILabel()
     lazy var mostrarContrasenaButton : UIButton = UIButton()
     
-    var ref: DatabaseReference?
+    let RegisterViewModel : RegistroViewModel = RegistroViewModel()
+    
+    private var cancellables: [AnyCancellable] = []
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        ref = Database.database().reference()
         
         view.backgroundColor = .systemBackground
         
         initUI()
+        validation()
+        validationFinish()
         
     }
     
@@ -161,8 +165,35 @@ class RegistroViewController: UIViewController {
         
     }
     
+    //suscriptor para validar el registro
+    fileprivate func validation(){
+        self.RegisterViewModel
+            .validationState
+            .sink{ newAlertText in
+                self.updateAlert(message: newAlertText)
+            }
+            .store(in: &cancellables)
+    }
+    
+    //suscriptor para salir de la pantalla al terminar el proceso
+    fileprivate func validationFinish(){
+        self.RegisterViewModel
+            .validationEnd
+            .sink{ _ in
+                self.dismiss(animated: true)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func updateAlert(message: String){
+        let alert = UIAlertController(title: Constants.error, message: message, preferredStyle: .alert)
+        let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+        alert.addAction(aceptar)
+        self.present(alert, animated: true)
+    }
+    
     @objc func regresoAction(){
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true)
     }
     
     @objc func verPass(){
@@ -172,41 +203,8 @@ class RegistroViewController: UIViewController {
     
     @objc func registroAction(){
         if let nombre = usuarioText.text, let correo = correoText.text, let contrasena = contrasenaText.text, let confirmacionContrasena = contrasenaTextConfirm.text{
-            let resultado : String = validarCampos(nombre: nombre, mail: correo, contrasena: contrasena, confirmacionContrasena: confirmacionContrasena)
-            if resultado == "OK"{
-                registroTerminado(nombre: nombre, correo: correo, pass: contrasena)
-            }else{
-                let alert = UIAlertController(title: Constants.error, message: resultado, preferredStyle: .alert)
-                let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
-                alert.addAction(aceptar)
-                self.present(alert, animated: true, completion: nil)
-            }
+            RegisterViewModel.getAlert(nombre: nombre, mail: correo, contrasena: contrasena, confirmacionContrasena: confirmacionContrasena)
         }
-    }
-    
-    func registroTerminado(nombre: String, correo: String, pass: String){
-        Auth.auth().createUser(withEmail: correo, password: pass) { [self] user, error in
-            if user != nil{
-                let campos = ["nombre": nombre, "email": correo, "id": Auth.auth().currentUser?.uid]
-                ref?.child("users").child(Auth.auth().currentUser!.uid).setValue(campos)
-                
-                self.dismiss(animated: true, completion: nil)
-            }else{
-                if let error = error?.localizedDescription{
-                    print("Error en Firebase:", error)
-                    let alert = UIAlertController(title: Constants.error, message: error, preferredStyle: .alert)
-                    let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
-                    alert.addAction(aceptar)
-                    self.present(alert, animated: true, completion: nil)
-                }else{
-                    let alert = UIAlertController(title: Constants.error, message: "Error en el código fuente", preferredStyle: .alert)
-                    let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
-                    alert.addAction(aceptar)
-                    self.present(alert, animated: true, completion: nil)
-                }
-            }
-        }
-        
     }
     
 }
