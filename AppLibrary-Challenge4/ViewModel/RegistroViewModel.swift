@@ -14,6 +14,10 @@ class RegistroViewModel{
     
     var alerta : String = ""
     
+    public var validationState = PassthroughSubject<String,Never>()//declarando publisher
+    
+    public var validationEnd = PassthroughSubject<Bool,Never>()//declarando publisher
+    
     fileprivate var newAlertText: String {
         didSet{
             validationState.send(newAlertText)
@@ -26,11 +30,19 @@ class RegistroViewModel{
         }
     }
     
-    public var validationState = PassthroughSubject<String,Never>()//declarando publisher
+    init() {
+        self.newAlertText = ""
+        self.end = false
+    }
     
-    public var validationEnd = PassthroughSubject<Bool,Never>()//declarando publisher
-        
-        
+    private func newAlert(message: String){
+        newAlertText = message
+    }
+    
+    private func finishRegister(){
+        end = true
+    }
+    
     public func getAlert(nombre: String, mail: String, contrasena: String, confirmacionContrasena: String){//funcion que se va a llamar desde nuestro ViewController
         var nombreIngresado = false
         var nombreValido = false
@@ -79,19 +91,6 @@ class RegistroViewModel{
         }else{
             newAlert(message: alerta)
         }
-    }
-    
-    init() {
-        self.newAlertText = ""
-        self.end = false
-    }
-    
-     private func newAlert(message: String){
-        newAlertText = message
-    }
-    
-    private func finishRegister(){
-        end = true
     }
     
     private func subirRegistro(nombre: String, correo: String, pass: String){

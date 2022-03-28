@@ -6,14 +6,13 @@
 //
 
 import UIKit
-import FirebaseAuth
+import Combine
 
 class ViewController: UIViewController {
     
     //Definimos las dimensiones de la pantalla en un par de constantes para usar tamaños relativos.
     let width = Constants.width
     let height = Constants.height
-    
     
     //Declaración de los elementos a usar
     lazy var topImage : UIImageView = UIImageView()
@@ -28,21 +27,27 @@ class ViewController: UIViewController {
     lazy var labelMostrarContrasena : UILabel = UILabel()
     lazy var mostrarContrasenaButton : UIButton = UIButton()
     
-    lazy var cryptoTableView: UITableView = UITableView()
+    let viewModel : ViewModel = ViewModel()
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        sesionActiva()
-        textCorreo.text = ""
-        textContrasena.text = ""
-    }
+    private var cancellables: [AnyCancellable] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //Seleccionamos el backgroundColor como el color por defecto seleccionado en el iPhone
         view.backgroundColor = .systemBackground
+        
         //Función que pondrá en pantalla los elementos de UIKit
         initUI()
+        
+        validation()
+        validationLogin()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.sesionActiva()
+        textCorreo.text = ""
+        textContrasena.text = ""
     }
     
     func initUI(){
@@ -136,6 +141,54 @@ class ViewController: UIViewController {
         registerButton.addSubview(labelRegisterOfButton)
     }
     
+    //suscriptor para validar el registro
+    fileprivate func validation(){
+        self.viewModel
+            .validationState
+            .sink{ newAlertText in
+                self.updateAlert(message: newAlertText)
+            }
+            .store(in: &cancellables)
+    }
+    
+    //suscriptor para salir de la pantalla al terminar el proceso
+    fileprivate func validationLogin(){
+        self.viewModel
+            .validationLogin
+            .sink{ _ in
+                self.loggingOccurred()
+            }
+            .store(in: &cancellables)
+    }
+    
+    func updateAlert(message: String){
+        let alert = UIAlertController(title: Constants.error, message: message, preferredStyle: .alert)
+        let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+        alert.addAction(aceptar)
+        self.present(alert, animated: true)
+    }
+    
+    func loggingOccurred(){
+        let tabBar = UITabBarController()
+        let home = HomeViewController()
+        home.title = Constants.home
+        home.tabBarItem.image = UIImage(named: "home")
+        let authors = AuthorsViewController()
+        authors.title = Constants.authors
+        authors.tabBarItem.image = UIImage(named: "autores")
+        let search = SearchViewController()
+        search.title = Constants.search
+        search.tabBarItem.image = UIImage(named: "buscar")
+        let detalles = AccountViewController()
+        detalles.title = Constants.account
+        detalles.tabBarItem.image = UIImage(named: "account")
+        UITabBar.appearance().backgroundColor = .systemGray6
+        
+        tabBar.setViewControllers([home, search, detalles], animated: true)
+        tabBar.modalPresentationStyle = .fullScreen
+        present(tabBar, animated: true)
+    }
+    
     @objc func verPass(){
         textContrasena.isSecureTextEntry.toggle()
     }
@@ -143,47 +196,9 @@ class ViewController: UIViewController {
     @objc func loginAction(){
         
         if let correo = textCorreo.text, let pass = textContrasena.text{
-            iniciarSesion(correo: correo, pass: pass)
+            viewModel.iniciarSesion(correo: correo, pass: pass)
         }
         
-    }
-    
-    func iniciarSesion(correo: String, pass: String){
-        Auth.auth().signIn(withEmail: correo, password: pass) { [self] user, error in
-            if user != nil{
-                let tabBar = UITabBarController()
-                let home = HomeViewController()
-                home.title = Constants.home
-                home.tabBarItem.image = UIImage(named: "home")
-                let authors = AuthorsViewController()
-                authors.title = Constants.authors
-                authors.tabBarItem.image = UIImage(named: "autores")
-                let search = SearchViewController()
-                search.title = Constants.search
-                search.tabBarItem.image = UIImage(named: "buscar")
-                let detalles = AccountViewController()
-                detalles.title = Constants.account
-                detalles.tabBarItem.image = UIImage(named: "account")
-                UITabBar.appearance().backgroundColor = .systemGray6
-                
-                tabBar.setViewControllers([home, search, detalles], animated: true)
-                tabBar.modalPresentationStyle = .fullScreen
-                present(tabBar, animated: true)
-                
-            }else{
-                if let _ = error?.localizedDescription{
-                    let alert = UIAlertController(title: Constants.error, message: Constants.errorCount, preferredStyle: .alert)
-                    let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
-                    alert.addAction(aceptar)
-                    present(alert, animated: true, completion: nil)
-                }else{
-                    let alert = UIAlertController(title: Constants.error, message: Constants.errorInternal, preferredStyle: .alert)
-                    let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
-                    alert.addAction(aceptar)
-                    present(alert, animated: true, completion: nil)
-                }
-            }
-        }
     }
     
     @objc func registerAction(){
@@ -191,40 +206,9 @@ class ViewController: UIViewController {
         registro.modalPresentationStyle = .fullScreen
         present(registro, animated: true, completion: nil)
     }
-    
-    func sesionActiva(){
-        Auth.auth().addStateDidChangeListener { [self] user, error in
-            if error != nil{
-                let tabBar = UITabBarController()
-                let home = HomeViewController()
-                home.title = Constants.home
-                home.tabBarItem.image = UIImage(named: "home")
-                let authors = AuthorsViewController()
-                authors.title = Constants.authors
-                authors.tabBarItem.image = UIImage(named: "autores")
-                let search = SearchViewController()
-                search.title = Constants.search
-                search.tabBarItem.image = UIImage(named: "buscar")
-                let detalles = AccountViewController()
-                detalles.title = Constants.account
-                detalles.tabBarItem.image = UIImage(named: "account")
-                UITabBar.appearance().backgroundColor = .systemGray6
-                
-                
-                tabBar.setViewControllers([home, search, detalles], animated: true)
-                tabBar.modalPresentationStyle = .fullScreen
-                present(tabBar, animated: true)
-            }
-        }
-    }
 
 }
 
-extension UITabBar {
-    static func setAppearanceTabbar(){
-        UITabBar.appearance().backgroundColor = .systemBackground
-    }
-}
 
 
 

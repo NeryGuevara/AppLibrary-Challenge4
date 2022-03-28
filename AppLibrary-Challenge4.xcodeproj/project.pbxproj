@@ -32,6 +32,7 @@
 		C5A7AF2C27DBE31B0081BAB3 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2B27DBE31B0081BAB3 /* AddContentViewController.swift */; };
 		C5A7AF2E27DBE8740081BAB3 /* AddAuthorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2D27DBE8740081BAB3 /* AddAuthorsViewController.swift */; };
 		C5A7AF3027DBF2DB0081BAB3 /* UITextView++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A7AF2F27DBF2DB0081BAB3 /* UITextView++.swift */; };
+		C5B7DE8727F17C81004AE6C7 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7DE8627F17C81004AE6C7 /* ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		C5A7AF2F27DBF2DB0081BAB3 /* UITextView++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView++.swift"; sourceTree = "<group>"; };
 		C5B7DE7F27ED9944004AE6C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C5B7DE8027ED9945004AE6C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C5B7DE8627F17C81004AE6C7 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		F68E4EF0EED64D8A06E33AE9 /* Pods-AppLibrary-Challenge4.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLibrary-Challenge4.debug.xcconfig"; path = "Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				C5A7AF2327DBBE940081BAB3 /* RegistroViewModel.swift */,
+				C5B7DE8627F17C81004AE6C7 /* ViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				C5A7AF2627DBCD020081BAB3 /* AcountViewController.swift in Sources */,
 				C5329A7727DC403600FEBC21 /* DetallesLibroViewController.swift in Sources */,
 				C59F39D527CF1C36007A4BF6 /* UIButton++.swift in Sources */,
+				C5B7DE8727F17C81004AE6C7 /* ViewModel.swift in Sources */,
 				C5A7AF2C27DBE31B0081BAB3 /* AddContentViewController.swift in Sources */,
 				C5A7AF2A27DBDC1E0081BAB3 /* SearchViewController.swift in Sources */,
 				C54F7CA927CC9B6C0057EDF3 /* AppDelegate.swift in Sources */,

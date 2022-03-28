@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  AppLibrary-Challenge4
 //
-//  Created by Felipe Nery Guevara Guevara on 27/02/22.
+//  Created by Felipe Nery Guevara Guevara on 27/02/22
 //
 
 import UIKit

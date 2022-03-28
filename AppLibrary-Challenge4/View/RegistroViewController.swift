@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
 import Combine
 
 class RegistroViewController: UIViewController {
