@@ -6,9 +6,7 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
-import FirebaseStorage
+import Combine
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -27,48 +25,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var labelBotonAdd : UILabel = UILabel()
     
     lazy var librosTableView : UITableView = UITableView()
-
-    var ref: DatabaseReference?
     
+    let homeViewModel : HomeViewModel = HomeViewModel()
     var postsList : [Posts] = []
     
+    private var cancellables: [AnyCancellable] = []
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        initUI()
         view.backgroundColor = .systemBackground
+        initUI()
         
         librosTableView.delegate = self
         librosTableView.dataSource = self
-        ref = Database.database().reference()
-
-        selesctPosts()
+        
+        receiveName()
+        newData()
+        reloadData()
+        
+        homeViewModel.selesctPosts()
         
     }
-    
-    func selesctPosts(){
-        ref?.child("posts").observe(DataEventType.value) { (snapshot) in
-            self.postsList.removeAll()
-            for item in snapshot.children.allObjects as! [DataSnapshot] {
-                let valores = item.value as? [String:AnyObject]
-                let titulo = valores!["titulo"] as? String ?? ""
-                let autor = valores!["autor"] as? String ?? ""
-                let descripcion = valores!["descripcion"] as? String ?? ""
-                let obra = valores!["obra"] as? String ?? ""
-                let imagenObra = valores!["imagenObra"] as? String ?? ""
-                let idUser = valores!["idUser"] as? String ?? ""
-                let idPost = valores!["idPost"] as? String ?? ""
-                
-                let post = Posts(titulo: titulo, autor: autor, descripcion: descripcion, obra: obra, imagenObra: imagenObra, idUser: idUser, idPost: idPost)
-                self.postsList.append(post)
-
-            }
-            DispatchQueue.main.async {
-                self.librosTableView.reloadData()
-            }
-        }
-    }
-    
     
     func initUI(){
         
@@ -87,12 +66,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.addSubview(hola)
         
         nombre = UILabel(frame: CGRect(x: 20, y: height/15 + 40, width: width-40, height: 42))
-        let userId = (Auth.auth().currentUser?.uid)!
-        ref?.child("users").child(userId).observeSingleEvent(of: .value, with: { [self] (snatshop) in
-            let value = snatshop.value as? NSDictionary
-            
-            nombre.text = value?["nombre"] as? String ?? Constants.nameNotFound
-        })
+        homeViewModel.recibirNombre()
         nombre.font = .boldSystemFont(ofSize: 33)
         nombre.textColor = UIColor.systemBlue
         nombre.textAlignment = .left
@@ -158,11 +132,39 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         botonAdd.addSubview(labelBotonAdd)
         
-        
+    }
+    
+    //suscriptor para traer la data del tablaView
+    fileprivate func newData(){
+        self.homeViewModel
+            .dataTableView
+            .sink{ newList in
+                self.postsList = newList
+            }
+            .store(in: &cancellables)
+    }
+    
+    //suscriptor para saber cuando recargar la data de la tableView
+    fileprivate func reloadData(){
+        self.homeViewModel
+            .reloadDataTableView
+            .sink{ _ in
+                self.librosTableView.reloadData()
+            }
+            .store(in: &cancellables)
+    }
+    
+    //suscriptor para traer el nombre del usuario
+    fileprivate func receiveName(){
+        self.homeViewModel
+            .reloadUserName
+            .sink{ name in
+                self.nombre.text = name
+            }
+            .store(in: &cancellables)
     }
     
     @objc private func tabButtonPushed() {
-        print("Aprentando el botón")
         let vc : UIViewController = AddContentViewController()
         vc.modalPresentationStyle = .popover
         present(vc, animated: true, completion: nil)
@@ -171,7 +173,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func cierreSesion(){
         let alerta = UIAlertController(title: Constants.logOutTitle, message: Constants.logOutMessage, preferredStyle: .alert)
         let aceptar = UIAlertAction(title: Constants.accept, style: .default) { _ in
-            try! Auth.auth().signOut()
+            self.homeViewModel.cerrarSesion()
             self.dismiss(animated: true, completion: nil)
         }
         let cancelar = UIAlertAction(title: Constants.cancel, style: .default, handler: nil)
@@ -199,7 +201,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Estoy en la sección \(indexPath.section) en la celda \(indexPath.row)")
         
         let post = postsList[indexPath.row]
         let vc = DetallesLibroViewController(post: post)

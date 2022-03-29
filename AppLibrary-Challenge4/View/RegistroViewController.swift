@@ -28,7 +28,7 @@ class RegistroViewController: UIViewController {
     lazy var labelMostrarContrasena : UILabel = UILabel()
     lazy var mostrarContrasenaButton : UIButton = UIButton()
     
-    let RegisterViewModel : RegistroViewModel = RegistroViewModel()
+    let registerViewModel : RegistroViewModel = RegistroViewModel()
     
     private var cancellables: [AnyCancellable] = []
 
@@ -165,7 +165,7 @@ class RegistroViewController: UIViewController {
     
     //suscriptor para validar el registro
     fileprivate func validation(){
-        self.RegisterViewModel
+        self.registerViewModel
             .validationState
             .sink{ newAlertText in
                 self.updateAlert(message: newAlertText)
@@ -175,7 +175,7 @@ class RegistroViewController: UIViewController {
     
     //suscriptor para salir de la pantalla al terminar el proceso
     fileprivate func validationFinish(){
-        self.RegisterViewModel
+        self.registerViewModel
             .validationEnd
             .sink{ _ in
                 self.dismiss(animated: true)
@@ -201,7 +201,7 @@ class RegistroViewController: UIViewController {
     
     @objc func registroAction(){
         if let nombre = usuarioText.text, let correo = correoText.text, let contrasena = contrasenaText.text, let confirmacionContrasena = contrasenaTextConfirm.text{
-            RegisterViewModel.getAlert(nombre: nombre, mail: correo, contrasena: contrasena, confirmacionContrasena: confirmacionContrasena)
+            registerViewModel.getAlert(nombre: nombre, mail: correo, contrasena: contrasena, confirmacionContrasena: confirmacionContrasena)
         }
     }
     
