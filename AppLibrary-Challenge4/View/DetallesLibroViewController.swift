@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import FirebaseStorage
+import Combine
 
 class DetallesLibroViewController: UIViewController {
     
@@ -46,6 +46,9 @@ class DetallesLibroViewController: UIViewController {
     var nombreAutorGrande = UILabel()
     var descripcionAutor = UILabel()
     var fotoAutor = UIImageView()
+    
+    let detallesLibroViewModel = DetallesLibroViewModel()
+    private var cancellables: [AnyCancellable] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +56,8 @@ class DetallesLibroViewController: UIViewController {
         view.backgroundColor = .systemGray4
         
         initUI()
+        
+        receiveImage()
         
     }
     
@@ -85,17 +90,8 @@ class DetallesLibroViewController: UIViewController {
         
         libroImagen = UIImageView(frame: CGRect(x: 5*heigth/228, y: (-25)*heigth/228, width: 25*heigth/171, height: 25*heigth/114))
         
-        if let urlFotoPerfil = post.imagenObra {
-            let storageImagen = Storage.storage().reference(forURL: urlFotoPerfil)
-            storageImagen.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
-                if let error = error?.localizedDescription {
-                    print("fallo al descargar imagen", error)
-                }else{
-                    if let imagen = data {
-                        self.libroImagen.image = UIImage(data: imagen)
-                    }
-                }
-            }
+        if let urlImagen = post.imagenObra {
+            detallesLibroViewModel.recibirImagen(url: urlImagen)
         }
         contenedorLibro.addSubview(libroImagen)
         
@@ -176,6 +172,16 @@ class DetallesLibroViewController: UIViewController {
         
         
         
+    }
+    
+    //Suscriptor para recibir la imagen
+    fileprivate func receiveImage(){
+        self.detallesLibroViewModel
+            .reloadImage
+            .sink{ imagenNew in
+                self.libroImagen.image = imagenNew
+            }
+            .store(in: &cancellables)
     }
     
     @objc func regresoAction(){

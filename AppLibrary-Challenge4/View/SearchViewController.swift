@@ -40,7 +40,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         initUI()
         
         searchContoller.searchResultsUpdater = self
-        searchContoller.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tabla.tableHeaderView = searchContoller.searchBar
         

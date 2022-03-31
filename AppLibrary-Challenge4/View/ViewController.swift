@@ -173,9 +173,6 @@ class ViewController: UIViewController {
         let home = HomeViewController()
         home.title = Constants.home
         home.tabBarItem.image = UIImage(named: "home")
-        let authors = AuthorsViewController()
-        authors.title = Constants.authors
-        authors.tabBarItem.image = UIImage(named: "autores")
         let search = SearchViewController()
         search.title = Constants.search
         search.tabBarItem.image = UIImage(named: "buscar")
@@ -194,11 +191,9 @@ class ViewController: UIViewController {
     }
     
     @objc func loginAction(){
-        
         if let correo = textCorreo.text, let pass = textContrasena.text{
             viewModel.iniciarSesion(correo: correo, pass: pass)
         }
-        
     }
     
     @objc func registerAction(){
