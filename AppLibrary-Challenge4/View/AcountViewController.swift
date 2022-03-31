@@ -6,9 +6,7 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
-import FirebaseStorage
+import Combine
 
 class AccountViewController: UIViewController {
 
@@ -26,19 +24,25 @@ class AccountViewController: UIViewController {
     lazy var correoLabel : UILabel = UILabel()
     lazy var correoValorLabel : UILabel = UILabel()
     
-    var ref: DatabaseReference?
+    let accountViewModel : AccountViewModel = AccountViewModel()
+    private var cancellables: [AnyCancellable] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ref = Database.database().reference() //Conexión a la base de datos
 
         view.backgroundColor = .systemBackground
     
         initUI()
+        
+        receiveName()
+        receiveEmail()
+        
     }
     
     func initUI(){
+        
+        accountViewModel.recibirInfoPerfil()
+        
         topImage = UIImageView(frame: CGRect(x: -20, y: -height/6, width: width*2, height: height/3))
         topImage.image = UIImage(named: "libros")
         
@@ -54,11 +58,6 @@ class AccountViewController: UIViewController {
         view.addSubview(hola)
         
         nombre = UILabel(frame: CGRect(x: 20, y: height/15 + 40, width: width-40, height: 42))
-        let userId = (Auth.auth().currentUser?.uid)!
-        ref?.child("users").child(userId).observeSingleEvent(of: .value, with: { [self] (snatshop) in
-            let value = snatshop.value as? NSDictionary
-            nombre.text = value?["nombre"] as? String ?? Constants.nameNotFound
-        })
         nombre.font = .boldSystemFont(ofSize: 33)
         nombre.textColor = UIColor.systemBlue
         nombre.textAlignment = .left
@@ -96,11 +95,6 @@ class AccountViewController: UIViewController {
         view.addSubview(correoLabel)
         
         correoValorLabel = UILabel(frame: CGRect(x: width/10, y: height/2-height/18, width: 8*width/10, height: height/4))
-        let userId2 = (Auth.auth().currentUser?.uid)!
-        ref?.child("users").child(userId2).observeSingleEvent(of: .value, with: { [self] (snatshop) in
-            let value = snatshop.value as? NSDictionary
-            correoValorLabel.text = value?["email"] as? String ?? Constants.nameNotFound
-        })
         correoValorLabel.font = .boldSystemFont(ofSize: 30)
         correoValorLabel.textColor = .systemBlue
         correoValorLabel.adjustsFontSizeToFitWidth = true
@@ -108,10 +102,30 @@ class AccountViewController: UIViewController {
         view.addSubview(correoValorLabel)
     }
     
+    //suscriptor para traer el nombre del usuario
+    fileprivate func receiveName(){
+        self.accountViewModel
+            .reloadUserName
+            .sink{ name in
+                self.nombre.text = name
+            }
+            .store(in: &cancellables)
+    }
+    
+    //suscriptor para traer el nombre del usuario
+    fileprivate func receiveEmail(){
+        self.accountViewModel
+            .reloadUserEmail
+            .sink{ email in
+                self.correoValorLabel.text = email
+            }
+            .store(in: &cancellables)
+    }
+    
     @objc func cierreSesion(){
         let alerta = UIAlertController(title: Constants.logOutTitle, message: Constants.logOutMessage, preferredStyle: .alert)
         let aceptar = UIAlertAction(title: Constants.accept, style: .default) { _ in
-            try! Auth.auth().signOut()
+            self.accountViewModel.cerrarSesion()
             self.dismiss(animated: true, completion: nil)
         }
         let cancelar = UIAlertAction(title: Constants.cancel, style: .default, handler: nil)
