@@ -6,9 +6,7 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
-import FirebaseStorage
+import Combine
 
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating {
 
@@ -23,12 +21,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     lazy var labelBotonCierre : UILabel = UILabel()
     
     lazy var tabla : UITableView = UITableView()
-
-    var ref: DatabaseReference?
+    
+    let searchViewModel : SearchViewModel = SearchViewModel()
+    
+    private var cancellables: [AnyCancellable] = []
     
     let searchContoller = UISearchController(searchResultsController: nil)
     
-    var postsList : [Posts] = []
     var filtroPost : [Posts] = []
     
     override func viewDidLoad() {
@@ -45,33 +44,43 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
         tabla.delegate = self
         tabla.dataSource = self
-        ref = Database.database().reference()
         
-        selesctPosts()
+        searchViewModel.selesctPosts()
+        
+        receiveName()
+        newData()
+        reloadData()
         
     }
     
-    func selesctPosts(){
-        ref?.child("posts").observe(DataEventType.value) { (snapshot) in
-            self.postsList.removeAll()
-            for item in snapshot.children.allObjects as! [DataSnapshot] {
-                let valores = item.value as? [String:AnyObject]
-                let titulo = valores!["titulo"] as? String ?? ""
-                let autor = valores!["autor"] as? String ?? ""
-                let descripcion = valores!["descripcion"] as? String ?? ""
-                let obra = valores!["obra"] as? String ?? ""
-                let imagenObra = valores!["imagenObra"] as? String ?? ""
-                let idUser = valores!["idUser"] as? String ?? ""
-                let idPost = valores!["idPost"] as? String ?? ""
-                
-                let post = Posts(titulo: titulo, autor: autor, descripcion: descripcion, obra: obra, imagenObra: imagenObra, idUser: idUser, idPost: idPost)
-                self.postsList.append(post)
-
+    //suscriptor para traer la data del tablaView
+    fileprivate func newData(){
+        self.searchViewModel
+            .dataTableView
+            .sink{ newList in
+                self.filtroPost = newList
             }
-            DispatchQueue.main.async {
+            .store(in: &cancellables)
+    }
+    
+    //suscriptor para saber cuando recargar la data de la tableView
+    fileprivate func reloadData(){
+        self.searchViewModel
+            .reloadDataTableView
+            .sink{ _ in
                 self.tabla.reloadData()
             }
-        }
+            .store(in: &cancellables)
+    }
+    
+    //suscriptor para traer el nombre del usuario
+    fileprivate func receiveName(){
+        self.searchViewModel
+            .reloadUserName
+            .sink{ name in
+                self.nombre.text = name
+            }
+            .store(in: &cancellables)
     }
     
     
@@ -91,12 +100,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         view.addSubview(hola)
         
         nombre = UILabel(frame: CGRect(x: 20, y: height/15 + 40, width: width-40, height: 42))
-        let userId = (Auth.auth().currentUser?.uid)!
-        ref?.child("users").child(userId).observeSingleEvent(of: .value, with: { [self] (snatshop) in
-            let value = snatshop.value as? NSDictionary
-            
-            nombre.text = value?["nombre"] as? String ?? Constants.nameNotFound
-        })
+        searchViewModel.recibirNombre()
         nombre.font = .boldSystemFont(ofSize: 33)
         nombre.textColor = UIColor.systemBlue
         nombre.textAlignment = .left
@@ -134,7 +138,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func cierreSesion(){
         let alerta = UIAlertController(title: Constants.logOutTitle, message: Constants.logOutMessage, preferredStyle: .alert)
         let aceptar = UIAlertAction(title: Constants.accept, style: .default) { _ in
-            try! Auth.auth().signOut()
+            self.searchViewModel.cerrarSesion()
             self.dismiss(animated: true, completion: nil)
         }
         let cancelar = UIAlertAction(title: Constants.cancel, style: .default, handler: nil)
@@ -144,17 +148,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        filtroContenido(buscador: self.searchContoller.searchBar.text!)
-    }
-    
-    func filtroContenido(buscador: String){
-        self.filtroPost = postsList.filter{ post in
-            let username = post.autor
-            return((username?.lowercased().contains(buscador.lowercased()))!)
-        }
-        DispatchQueue.main.async {
-            self.tabla.reloadData()
-        }
+        searchViewModel.filtroContenido(buscador: self.searchContoller.searchBar.text!)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -162,7 +156,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(postsList.count)
         return filtroPost.count
     }
     
@@ -185,7 +178,4 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
-
-    
-
 }

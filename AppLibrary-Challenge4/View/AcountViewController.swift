@@ -34,14 +34,13 @@ class AccountViewController: UIViewController {
     
         initUI()
         
+        accountViewModel.recibirInfoPerfil()
         receiveName()
         receiveEmail()
         
     }
     
     func initUI(){
-        
-        accountViewModel.recibirInfoPerfil()
         
         topImage = UIImageView(frame: CGRect(x: -20, y: -height/6, width: width*2, height: height/3))
         topImage.image = UIImage(named: "libros")
