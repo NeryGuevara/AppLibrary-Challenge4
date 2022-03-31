@@ -1,5 +1,5 @@
 //
-//  DetallesLibroViewModel.swift
+//  ContenidoTableViewCellViewModel.swift
 //  AppLibrary-Challenge4
 //
 //  Created by Felipe Nery Guevara Guevara on 31/03/22.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import FirebaseStorage
 
-class DetallesLibroViewModel{
+class ContenidoTableViewCellViewModel{
 
     public var reloadImage = PassthroughSubject<UIImage,Never>()
 

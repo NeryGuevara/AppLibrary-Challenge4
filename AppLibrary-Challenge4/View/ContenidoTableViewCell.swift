@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import FirebaseStorage
+import Combine
 
 class ContenidoTableViewCell: UITableViewCell {
 
@@ -25,6 +25,9 @@ class ContenidoTableViewCell: UITableViewCell {
     var imagenLibro = UIImageView()
     var flechaDetalle = UIImageView()
     
+    let contenidoTableViewCellViewModel = ContenidoTableViewCellViewModel()
+    private var cancellables: [AnyCancellable] = []
+    
     var post : Posts = Posts(titulo: "", autor: "", descripcion: "", obra: "", imagenObra: "", idUser: "", idPost: "")
     
     init(post : Posts){
@@ -35,7 +38,12 @@ class ContenidoTableViewCell: UITableViewCell {
         self.backgroundColor = .clear
         
         initUI()
+        receiveImage()
         
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func initUI(){
@@ -60,19 +68,9 @@ class ContenidoTableViewCell: UITableViewCell {
         
         ownContent.addSubview(autor)
         
-        if let urlFotoPerfil = post.imagenObra {
-            let storageImagen = Storage.storage().reference(forURL: urlFotoPerfil)
-            storageImagen.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
-                if let error = error?.localizedDescription {
-                    print("fallo al descargar imagen", error)
-                }else{
-                    if let imagen = data {
-                        self.imagenLibro.image = UIImage(data: imagen)
-                    }
-                }
-            }
+        if let urlImagen = post.imagenObra {
+            contenidoTableViewCellViewModel.recibirImagen(url: urlImagen)
         }
-        
         
         imagenLibro = UIImageView(frame: CGRect(x: heigth/63 - 5, y: heigth/63 - 5, width: 2*heigth/27, height: heigth/9))
         //imagenLibro.image = UIImage(named: libro?.imagen ?? "default")
@@ -87,8 +85,14 @@ class ContenidoTableViewCell: UITableViewCell {
         
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    //Suscriptor para recibir la imagen
+    fileprivate func receiveImage(){
+        self.contenidoTableViewCellViewModel
+            .reloadImage
+            .sink{ imagenNew in
+                self.imagenLibro.image = imagenNew
+            }
+            .store(in: &cancellables)
     }
 
 }
