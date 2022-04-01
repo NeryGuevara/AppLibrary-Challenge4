@@ -92,6 +92,7 @@ class RegistroViewController: UIViewController {
         
         usuarioText = UITextField(frame: CGRect(x: (width-40)/20, y: 3*height/22, width: 18*(width-40)/20, height: height/18))
         usuarioText.format()
+        usuarioText.autocapitalizationType = .none
         usuarioText.attributedPlaceholder = NSAttributedString(
             string: Constants.enterUserName,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
@@ -101,6 +102,7 @@ class RegistroViewController: UIViewController {
         
         correoText = UITextField(frame: CGRect(x: (width-40)/20, y: 5*height/22, width: 18*(width-40)/20, height: height/18))
         correoText.format()
+        correoText.autocapitalizationType = .none
         correoText.attributedPlaceholder = NSAttributedString(
             string: Constants.enterEmail,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]

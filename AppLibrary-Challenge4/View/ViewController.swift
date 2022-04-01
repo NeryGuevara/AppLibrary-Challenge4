@@ -73,6 +73,7 @@ class ViewController: UIViewController {
         
         textCorreo = UITextField(frame: CGRect(x: width/8, y: 13*height/24, width: 3*width/4, height: height/18))
         textCorreo.format()
+        textCorreo.autocapitalizationType = .none
         textCorreo.attributedPlaceholder = NSAttributedString(
             string: Constants.enterEmail,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
