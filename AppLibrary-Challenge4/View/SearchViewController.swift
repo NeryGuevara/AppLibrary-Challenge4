@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating {
+class SearchViewController: UIViewController{
 
     let width = Constants.width
     let height = Constants.height
@@ -36,14 +36,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
         super.viewDidLoad()
         
-        initUI()
-        
-        searchContoller.searchResultsUpdater = self
         definesPresentationContext = true
-        tabla.tableHeaderView = searchContoller.searchBar
         
+        initUI()
         tabla.delegate = self
         tabla.dataSource = self
+        searchContoller.searchResultsUpdater = self
+        tabla.tableHeaderView = searchContoller.searchBar
         
         searchViewModel.selesctPosts()
         
@@ -147,6 +146,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         present(alerta, animated: true, completion: nil)
     }
     
+}
+
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate{
+    
     func updateSearchResults(for searchController: UISearchController) {
         searchViewModel.filtroContenido(buscador: self.searchContoller.searchBar.text!)
     }
@@ -156,6 +159,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchContoller.isActive && searchContoller.searchBar.text != "" {
+            return filtroPost.count
+        }
         return filtroPost.count
     }
     

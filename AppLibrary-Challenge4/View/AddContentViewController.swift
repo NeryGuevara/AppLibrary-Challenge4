@@ -6,13 +6,9 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
-import FirebaseStorage
+import Combine
 
-class AddContentViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    var ref: DatabaseReference?
+class AddContentViewController: UIViewController{
     
     let width = Constants.width
     let height = Constants.height
@@ -33,14 +29,19 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
     lazy var botonGuardado : UIButton = UIButton()
     lazy var labelGuardado : UILabel = UILabel()
     
+    let addContentViewModel : AddContentviewModel = AddContentviewModel()
+    
+    private var cancellables: [AnyCancellable] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ref = Database.database().reference()
-        
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray6
         
         initUI()
+        
+        validation()
+        validationPost()
     }
     
     func initUI(){
@@ -97,7 +98,8 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
         
         view.addSubview(obra)
         
-        imagen = UIImageView(frame: CGRect(x: width/8, y: 8*height/12, width: 5*height/36, height: 5*height/24))
+        imagen = UIImageView(frame: CGRect(x: width/8, y: 8*height/12, width: 3*width/8, height: 3*width/8))
+        imagen.image = UIImage(named: "defaultImage")
         imagen.layer.borderColor = UIColor.systemBlue.cgColor
         imagen.layer.borderWidth = 1
         imagen.layer.cornerRadius = 5
@@ -106,36 +108,71 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
         
         view.addSubview(imagen)
         
-        botonSubirImagen = UIButton(frame: CGRect(x: width/2, y: 8*height/12, width: 3*width/8, height: height/18))
+        botonSubirImagen = UIButton(frame: CGRect(x: width/2+width/16, y: 8*height/12, width: 5*width/16, height: height/18))
         botonSubirImagen.blueFormat()
         botonSubirImagen.addTarget(self, action: #selector(agregarImagen), for: .touchUpInside)
         
         view.addSubview(botonSubirImagen)
         
-        labelSubirImagen = UILabel(frame: CGRect(x: width/16, y: 0, width: width/4, height: height/18))
-        labelSubirImagen.font = .boldSystemFont(ofSize: 30)
+        labelSubirImagen = UILabel(frame: CGRect(x: width/32, y: 0, width: 8*width/32, height: height/18))
+        labelSubirImagen.font = .boldSystemFont(ofSize: 24)
         labelSubirImagen.text = Constants.uploadImage
         labelSubirImagen.textColor = .white
         labelSubirImagen.adjustsFontSizeToFitWidth = true
         
         botonSubirImagen.addSubview(labelSubirImagen)
         
-        botonGuardado = UIButton(frame: CGRect(x: width/2, y: 18*height/24, width: 3*width/8, height: height/8))
+        botonGuardado = UIButton(frame: CGRect(x: width/2+width/16, y: 18*height/24, width: 5*width/16, height: height/12))
         botonGuardado.backgroundColor = .orange
         botonGuardado.layer.cornerRadius = 10
         botonGuardado.addTarget(self, action: #selector(subirPublicacion), for: .touchUpInside)
         
         view.addSubview(botonGuardado)
         
-        labelGuardado = UILabel(frame: CGRect(x: width/16, y: 0, width: width/4, height: height/10))
-        labelGuardado.font = .boldSystemFont(ofSize: 30)
+        labelGuardado = UILabel(frame: CGRect(x: width/32, y: 0, width: 8*width/32, height: height/12))
+        labelGuardado.font = .boldSystemFont(ofSize: 24)
         labelGuardado.text = Constants.save
         labelGuardado.textColor = .white
         labelGuardado.adjustsFontSizeToFitWidth = true
         
         botonGuardado.addSubview(labelGuardado)
         
-        
+    }
+    
+    //suscriptor para validar el registro
+    fileprivate func validation(){
+        self.addContentViewModel
+            .validationState
+            .sink{ newAlertText in
+                self.updateAlert(message: newAlertText)
+            }
+            .store(in: &cancellables)
+    }
+    
+    //suscriptor para salir de la pantalla al terminar el proceso
+    fileprivate func validationPost(){
+        self.addContentViewModel
+            .validationLogin
+            .sink{ _ in
+                self.loggingOccurred()
+            }
+            .store(in: &cancellables)
+    }
+    
+    func updateAlert(message: String){
+        let alert = UIAlertController(title: Constants.error, message: message, preferredStyle: .alert)
+        let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
+        alert.addAction(aceptar)
+        self.present(alert, animated: true)
+    }
+    
+    func loggingOccurred(){
+        self.titulo.text = ""
+        self.autor.text = ""
+        self.descripcion.text = ""
+        self.obra.text = ""
+        self.imagen.image = UIImage(named: "defaultImage")
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func agregarImagen(){
@@ -143,6 +180,7 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
+        
         present(imagePicker, animated: true, completion: nil)
     }
     
@@ -167,11 +205,23 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
         return newImage!
     }
     
+    @objc func subirPublicacion(){
+        if let titulo = titulo.text, let autor = autor.text, let descripcion = descripcion.text, let obra = obra.text, let imagen = imagen.image{
+            addContentViewModel.subirPost(titulo: titulo, autor: autor, descripcion: descripcion, obra: obra, imagen: imagen)
+        }
+    }
+    
+
+}
+
+extension AddContentViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
         picker.dismiss(animated: true, completion: nil)
         let imagenTomada = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         
-        imagenContenido = redimensionarImagen(image: (imagenTomada ?? UIImage(named: "defaultImage"))!, targetSize: CGSize(width: 200.0, height: 300.0))
+        imagenContenido = redimensionarImagen(image: (imagenTomada ?? UIImage(named: "defaultImage"))!, targetSize: CGSize(width: 200, height: 300))
         
         imagen.image = imagenContenido
         
@@ -181,52 +231,4 @@ class AddContentViewController: UIViewController, UIImagePickerControllerDelegat
         dismiss(animated: true)
     }
     
-    @objc func subirPublicacion(){
-        if let titulo = titulo.text, let autor = autor.text, let descripcion = descripcion.text, let obra = obra.text, let imagen = imagen.image{
-            if titulo != "" && autor != "" && descripcion != "" && obra != "" && imagen != UIImage(){
-                //Usar el storage para la imagen
-                let storage = Storage.storage().reference()
-                let nombreImagen = UUID()
-                let directorio = storage.child("imagenesPosts/\(nombreImagen)")
-                let metadata = StorageMetadata()
-                metadata.contentType = "image/png"
-                
-                directorio.putData(imagenContenido.pngData()!, metadata: metadata) { (data, error) in
-                    if error == nil {
-                        print("se guardo imagen")
-                    }else{
-                        if let error = error?.localizedDescription{
-                            print("error en firebase al cargar imagen", error)
-                        }else{
-                            print("error de codigo")
-                        }
-                    }
-                }
-                //Usar la base de datos para la publicacion y relacionar la imagen del storage
-                guard let idPost = ref?.childByAutoId().key else { return  }
-                guard let idUser = Auth.auth().currentUser?.uid else { return }
-                let campos = ["titulo": titulo,
-                              "autor": autor,
-                              "descripcion": descripcion,
-                              "obra": obra,
-                              "imagenObra": String(describing: directorio),
-                              "idUser": idUser,
-                              "idPost": idPost]
-                ref?.child("posts").child(idPost).setValue(campos)
-                self.titulo.text = ""
-                self.autor.text = ""
-                self.descripcion.text = ""
-                self.obra.text = ""
-                self.imagen.image = UIImage()
-                dismiss(animated: true, completion: nil)
-            }else{
-                let alert = UIAlertController(title: Constants.error, message: Constants.errorFill, preferredStyle: .alert)
-                let aceptar = UIAlertAction(title: Constants.accept, style: .default, handler: nil)
-                alert.addAction(aceptar)
-                present(alert, animated: true, completion: nil)
-            }
-        }
-    }
-    
-
 }

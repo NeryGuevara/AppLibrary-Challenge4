@@ -13,8 +13,7 @@ class ContenidoTableViewCell: UITableViewCell {
     var width = UIScreen.main.bounds.width
     var heigth = UIScreen.main.bounds.height
     
-    var stringAutor = "Autor: "
-    var stringCategoria = "Categoria: "
+    var stringAutor = Constants.author
     
     var ownContent = UIView()
     
@@ -62,7 +61,7 @@ class ContenidoTableViewCell: UITableViewCell {
         ownContent.addSubview(nombreLibro)
         
         autor = UILabel(frame: CGRect(x: (width-20)/4, y: (heigth/7 - 10)/3, width: 5*(width-20)/8, height: (heigth/7 - 10)/3))
-        stringAutor += post.autor ?? "Autor no encontrado"
+        stringAutor += post.autor ?? "ERROR"
         autor.text = stringAutor
         autor.textAlignment = .left
         
@@ -72,14 +71,11 @@ class ContenidoTableViewCell: UITableViewCell {
             contenidoTableViewCellViewModel.recibirImagen(url: urlImagen)
         }
         
-        imagenLibro = UIImageView(frame: CGRect(x: heigth/63 - 5, y: heigth/63 - 5, width: 2*heigth/27, height: heigth/9))
-        //imagenLibro.image = UIImage(named: libro?.imagen ?? "default")
-        imagenLibro.contentMode = .scaleAspectFit //Hace que la imagen se ajusten en sus proporciones
-        
+        imagenLibro = UIImageView(frame: CGRect(x: heigth/63 - 5, y: heigth/63 - 5, width: heigth/9, height: heigth/9))
         ownContent.addSubview(imagenLibro)
         
         flechaDetalle = UIImageView(frame: CGRect(x: 7*(width-20)/8, y: ((heigth/7 - 10)-((width-20)/12))/2, width: (width-20)/12, height: (width-20)/12))
-        flechaDetalle.image = UIImage(named: "Flecha")
+        flechaDetalle.image = UIImage(named: "flecha")
         
         ownContent.addSubview(flechaDetalle)
         

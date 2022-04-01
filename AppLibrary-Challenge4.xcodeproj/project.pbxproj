@@ -11,6 +11,7 @@
 		530D285A27F61FEB00E360D7 /* ContenidoTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530D285927F61FEB00E360D7 /* ContenidoTableViewCellViewModel.swift */; };
 		530D285E27F62A8E00E360D7 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530D285D27F62A8E00E360D7 /* AccountViewModel.swift */; };
 		530D286027F632A300E360D7 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530D285F27F632A300E360D7 /* SearchViewModel.swift */; };
+		53DB88C427F6A3AE00E73A53 /* AddContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB88C327F6A3AE00E73A53 /* AddContentViewModel.swift */; };
 		6D66BA6193A41B08EE1F98CB /* Pods_AppLibrary_Challenge4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE86899BD7149698B409A6DE /* Pods_AppLibrary_Challenge4.framework */; };
 		C5329A6D27DC1B7200FEBC21 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5329A6C27DC1B7200FEBC21 /* UserModel.swift */; };
 		C5329A7127DC339500FEBC21 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5329A7027DC339500FEBC21 /* GoogleService-Info.plist */; };
@@ -42,6 +43,7 @@
 		530D285927F61FEB00E360D7 /* ContenidoTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContenidoTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		530D285D27F62A8E00E360D7 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		530D285F27F632A300E360D7 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		53DB88C327F6A3AE00E73A53 /* AddContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewModel.swift; sourceTree = "<group>"; };
 		8BFEEFE20C0928F2E02B69A9 /* Pods-AppLibrary-Challenge4.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLibrary-Challenge4.release.xcconfig"; path = "Target Support Files/Pods-AppLibrary-Challenge4/Pods-AppLibrary-Challenge4.release.xcconfig"; sourceTree = "<group>"; };
 		BE86899BD7149698B409A6DE /* Pods_AppLibrary_Challenge4.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLibrary_Challenge4.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5329A6C27DC1B7200FEBC21 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				530D285927F61FEB00E360D7 /* ContenidoTableViewCellViewModel.swift */,
 				530D285D27F62A8E00E360D7 /* AccountViewModel.swift */,
 				530D285F27F632A300E360D7 /* SearchViewModel.swift */,
+				53DB88C327F6A3AE00E73A53 /* AddContentViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				530D285E27F62A8E00E360D7 /* AccountViewModel.swift in Sources */,
 				C54F7CAB27CC9B6C0057EDF3 /* SceneDelegate.swift in Sources */,
 				C571846D27CDFFF500769EE0 /* RegistroViewController.swift in Sources */,
+				53DB88C427F6A3AE00E73A53 /* AddContentViewModel.swift in Sources */,
 				530D285827F603A200E360D7 /* DetallesLibroViewModel.swift in Sources */,
 				C5329A7527DC39C000FEBC21 /* ContenidoTableViewCell.swift in Sources */,
 				C571846627CDEA6500769EE0 /* Constants.swift in Sources */,

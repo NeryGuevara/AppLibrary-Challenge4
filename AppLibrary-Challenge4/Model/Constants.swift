@@ -54,11 +54,12 @@ struct Constants{
     static let alertPassBad : String = "Please enter a valid password, it must contain at least 8 characters including at least one lowercase letter, one uppercase letter, one number and one special character."
     static let alertPassBadIntro : String = "Passwords do not match, please verify it"
     static let thanksContent : String = "Thank you for your contribution"
-    static let title : String = "Title"
-    static let author : String = "Author"
+    static let title : String = "Title:"
+    static let author : String = "Author: "
     static let description : String = "Description:"
-    static let work : String = "Work:"
+    static let work : String = "The Work:"
     static let uploadImage : String = "Upload image"
     static let save : String = "Save content"
     static let errorFill : String = "Please fill in all fields"
+    
 }

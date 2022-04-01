@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController{
     
     let width = Constants.width
     let height = Constants.height
@@ -181,6 +181,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         alerta.addAction(cancelar)
         present(alerta, animated: true, completion: nil)
     }
+    
+}
+
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

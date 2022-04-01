@@ -22,25 +22,26 @@ class DetallesLibroViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var topImage = UIImageView()
-    var linea = UIView()
-    var botonRegreso = UIButton()
+    lazy var topImage = UIImageView()
+    lazy var linea = UIView()
+    lazy var botonRegreso = UIButton()
+    lazy var labelRegresoButton: UILabel = UILabel()
     
-    var width = UIScreen.main.bounds.width
-    var heigth = UIScreen.main.bounds.height
+    lazy var width = Constants.width
+    lazy var heigth = Constants.height
     
-    var contenedorLibro = UIView()
-    var contenedorDescripcion = UIView()
-    var contenedorAutor = UIView()
+    lazy var contenedorLibro = UIView()
+    lazy var contenedorDescripcion = UIView()
+    lazy var contenedorAutor = UIView()
     
-    var libroImagen = UIImageView()
-    var nombreLibro = UILabel()
+    lazy var libroImagen = UIImageView()
+    lazy var nombreLibro = UILabel()
     var nombreAutor = UILabel()
     var nombreCategoria = UILabel()
     
     var descripcionLibro = UILabel()
     var contenedorBotones = UIView()
-    var botonDescripcion = UIButton()
+    var botonDescripcion = UILabel()
     
     var labelSobreAutor = UILabel()
     var nombreAutorGrande = UILabel()
@@ -53,7 +54,7 @@ class DetallesLibroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemGray4
+        view.backgroundColor = .systemGray5
         
         initUI()
         
@@ -62,20 +63,24 @@ class DetallesLibroViewController: UIViewController {
     }
     
     func initUI(){
-        topImage = UIImageView(frame: CGRect(x: -20, y: (-1)*heigth/6, width: width*2, height: heigth/3))
+        topImage = UIImageView(frame: CGRect(x: -20, y: -heigth/6, width: width*2, height: heigth/3))
         topImage.image = UIImage(named: "libros")
         
         view.addSubview(topImage)
         
-        botonRegreso = UIButton(frame: CGRect(x: 0, y: heigth/12, width: width/2, height: heigth/12))
+        botonRegreso = UIButton(frame: CGRect(x: 20, y: heigth/12, width: 9*width/40, height: heigth/12))
         botonRegreso.backgroundColor = .clear
-        botonRegreso.titleLabel?.font = .boldSystemFont(ofSize: 25)
-        botonRegreso.setTitle("< Back", for: .normal)
-        botonRegreso.setTitleColor(.systemBlue, for: .normal)
-        
         botonRegreso.addTarget(self, action: #selector(regresoAction), for: .touchUpInside)
         
         view.addSubview(botonRegreso)
+        
+        labelRegresoButton = UILabel(frame: CGRect(x: 0, y: 0, width: 9*width/40, height: heigth/12))
+        labelRegresoButton.text = Constants.back
+        labelRegresoButton.textColor = .systemBlue
+        labelRegresoButton.font = .boldSystemFont(ofSize: 35)
+        labelRegresoButton.adjustsFontSizeToFitWidth = true
+        
+        botonRegreso.addSubview(labelRegresoButton)
         
         linea = UIView(frame: CGRect(x: width/2, y: heigth/6, width: width/2, height: heigth/200))
         linea.backgroundColor = .systemBlue
@@ -88,7 +93,7 @@ class DetallesLibroViewController: UIViewController {
         
         view.addSubview(contenedorLibro)
         
-        libroImagen = UIImageView(frame: CGRect(x: 5*heigth/228, y: (-25)*heigth/228, width: 25*heigth/171, height: 25*heigth/114))
+        libroImagen = UIImageView(frame: CGRect(x: 5*heigth/228, y: (-10)*heigth/228, width: 25*heigth/171, height: 25*heigth/171))
         
         if let urlImagen = post.imagenObra {
             detallesLibroViewModel.recibirImagen(url: urlImagen)
@@ -105,11 +110,11 @@ class DetallesLibroViewController: UIViewController {
         contenedorLibro.addSubview(nombreLibro)
         
         nombreAutor = UILabel(frame: CGRect(x: 5*(width-40)/12, y: 5*heigth/114, width: 7*(width-40)/12 - 5, height: 5*heigth/114))
-        var stringAutor = "Author: "
+        var stringAutor = Constants.author
         stringAutor += post.autor ?? ""
         nombreAutor.text = stringAutor
         nombreAutor.numberOfLines = 0
-        nombreAutor.textAlignment = .left
+        nombreAutor.textAlignment = .center
         nombreAutor.adjustsFontSizeToFitWidth = true
         
         contenedorLibro.addSubview(nombreAutor)
@@ -128,11 +133,11 @@ class DetallesLibroViewController: UIViewController {
         
         contenedorDescripcion.addSubview(contenedorBotones)
         
-        botonDescripcion = UIButton(frame: CGRect(x: 0, y: 0, width: (width-40)/2, height: (25*heigth/114)/4))
-        botonDescripcion.backgroundColor = .white
-        botonDescripcion.setTitle("Description", for: .normal)
-        botonDescripcion.titleLabel?.font = .systemFont(ofSize: 18)
-        botonDescripcion.setTitleColor(.systemBlue, for: .normal)
+        botonDescripcion = UILabel(frame: CGRect(x: 0, y: 0, width: (width-40)/2, height: (25*heigth/114)/4))
+        botonDescripcion.textAlignment = .center
+        botonDescripcion.text = Constants.description
+        botonDescripcion.font = .systemFont(ofSize: 16)
+        botonDescripcion.textColor = .systemBlue
         botonDescripcion.layer.cornerRadius = 10
         botonDescripcion.layer.borderColor = UIColor.systemBlue.cgColor
         botonDescripcion.layer.borderWidth = 1
@@ -143,7 +148,7 @@ class DetallesLibroViewController: UIViewController {
         descripcionLibro.text = post.descripcion
         descripcionLibro.font = .systemFont(ofSize: 18)
         descripcionLibro.numberOfLines = 0
-        descripcionLibro.textAlignment = .left
+        descripcionLibro.textAlignment = .center
         descripcionLibro.adjustsFontSizeToFitWidth = true
         
         contenedorDescripcion.addSubview(descripcionLibro)
@@ -155,8 +160,8 @@ class DetallesLibroViewController: UIViewController {
         
         view.addSubview(contenedorAutor)
         
-        labelSobreAutor = UILabel(frame: CGRect(x: 20, y: 0, width: 4*(width-40)/5, height: (25*heigth/114)/5))
-        labelSobreAutor.text = "The work"
+        labelSobreAutor = UILabel(frame: CGRect(x: 20, y: 10, width: 4*(width-40)/5, height: (25*heigth/114)/5))
+        labelSobreAutor.text = Constants.work
         labelSobreAutor.font = .systemFont(ofSize: 20)
         labelSobreAutor.textColor = .systemBlue
         
