@@ -1,5 +1,5 @@
 # AppLibrary-Challenge4
-Aplicación para iOS, red social prientada a compartir contenido literario, desarrollada con el patrón de arquitectura MVVM usando combine. 
+Aplicación para iOS, red social orientada a compartir contenido literario, desarrollada con el patrón de arquitectura MVVM usando combine. 
 
 Este es el último desafío en la escuela de Kodemia que se presentará de manera individual para la carrera de desarrollador de iOS.
 Si bien tenía un gran avance con el desafío 3, decidí empezar con un proyecto nuevo para mejorar con el uso de buenas prácticas.
@@ -10,5 +10,7 @@ Mejoras después de la última revisión:
 - Uso de combine para el patrón de arquitectura MVVM.
 - Mejoras en el diseño de la app.
 - Uso de expresiones regulares para validar información.
+- Ya no se pone la primera letra en mayúscula al introducir un correo o nombre de usuario.
+- Soporte para traducir la app a diferentes idiomas.
 
 Espero que les guste mi aplicación y cualquier comentario, queja o segerensia es recibido.
