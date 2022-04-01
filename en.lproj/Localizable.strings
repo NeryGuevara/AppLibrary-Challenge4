@@ -1,0 +1,52 @@
+/* 
+  Localizable.strings
+  AppLibrary-Challenge4
+
+  Created by Felipe Nery Guevara Guevara on 31/03/22.
+  
+*/
+
+
+"Welcome!" = "Welcome!";
+"Email" = "Email";
+"Password" = "Password";
+"Confirm password" = "Confirm password";
+"Login" = "Login";
+"Are you new? Register here" = "Are you new? Register here";
+"< Back" = "< Back";
+"You are just a few steps away from the ultimate experience" = "You are just a few steps away from the ultimate experience";
+"Register your information" = "Register your information";
+"User name" = "User name";
+"Name of your first book" = "Name of your first book";
+"Create account" = "Create account";
+"Hello," = "Hello,";
+"Aren't you? Log out" = "Aren't you? Log out";
+"Log out" = "Log out";
+"Are you sure you want to log out?" = "Are you sure you want to log out?";
+"Accept" = "Accept";
+"Cancel" = "Cancel";
+"Name not found" = "Name not found";
+"Error :(" = "Error :(";
+"The data entered are invalid" = "The data entered are invalid";
+"Network error, please check your connection." = "Network error, please check your connection.";
+"Show password" = "Show password";
+"Add new book" = "Add new book";
+"Book not found" = "Book not found";
+"Our content" = "Our content";
+"Home" = "Home";
+"Authors" = "Authors";
+"Account" = "Account";
+"Search" = "Search";
+"Please enter your username" = "Please enter your username";
+"The username entered is too short, please enter one with at least 4 characters." = "The username entered is too short, please enter one with at least 4 characters.";
+"Please enter a valid email address" = "Please enter a valid email address";
+"Please enter a valid password, it must contain at least 8 characters including at least one lowercase letter, one uppercase letter, one number and one special character." = "Please enter a valid password, it must contain at least 8 characters including at least one lowercase letter, one uppercase letter, one number and one special character.";
+"Passwords do not match, please verify it" = "Passwords do not match, please verify it";
+"Thank you for your contribution" = "Thank you for your contribution";
+"Title:" = "Title:";
+"Author: " = "Author: ";
+"Description:" = "Description:";
+"The Work:" = "The Work:";
+"Upload image" = "Upload image";
+"Save content" = "Save content";
+"Please fill in all fields" = "Please fill in all fields";
